@@ -1,0 +1,478 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 24 9% 6%;
+    --foreground: 40 10% 90%;
+    --card: 24 9% 8%;
+    --card-foreground: 40 10% 90%;
+    --popover: 24 9% 8%;
+    --popover-foreground: 40 10% 90%;
+    --primary: 40 40% 57%;
+    --primary-foreground: 24 9% 6%;
+    --secondary: 24 14% 23%;
+    --secondary-foreground: 40 10% 90%;
+    --muted: 24 14% 23%;
+    --muted-foreground: 40 5% 60%;
+    --accent: 40 40% 57%;
+    --accent-foreground: 24 9% 6%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 40 10% 20%;
+    --input: 40 10% 20%;
+    --ring: 40 40% 57%;
+    --radius: 0.45rem;
+    --chart-1: 40 40% 57%;
+    --chart-2: 40 35% 50%;
+    --chart-3: 40 30% 45%;
+    --chart-4: 40 25% 40%;
+    --chart-5: 40 20% 35%;
+    --sidebar: 24 9% 8%;
+    --sidebar-foreground: 40 10% 90%;
+    --sidebar-primary: 40 40% 57%;
+    --sidebar-primary-foreground: 24 9% 6%;
+    --sidebar-accent: 24 14% 23%;
+    --sidebar-accent-foreground: 40 10% 90%;
+    --sidebar-border: 40 10% 20%;
+    --sidebar-ring: 40 40% 57%;
+  }
+
+  .dark {
+    --background: 24 9% 6%;
+    --foreground: 40 10% 90%;
+    --card: 24 9% 8%;
+    --card-foreground: 40 10% 90%;
+    --popover: 24 9% 8%;
+    --popover-foreground: 40 10% 90%;
+    --primary: 40 40% 57%;
+    --primary-foreground: 24 9% 6%;
+    --secondary: 24 14% 23%;
+    --secondary-foreground: 40 10% 90%;
+    --muted: 24 14% 23%;
+    --muted-foreground: 40 5% 60%;
+    --accent: 40 40% 57%;
+    --accent-foreground: 24 9% 6%;
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 10% 20%;
+    --input: 40 10% 20%;
+    --ring: 40 40% 57%;
+    --chart-1: 40 40% 57%;
+    --chart-2: 40 35% 50%;
+    --chart-3: 40 30% 45%;
+    --chart-4: 40 25% 40%;
+    --chart-5: 40 20% 35%;
+    --sidebar: 24 9% 8%;
+    --sidebar-foreground: 40 10% 90%;
+    --sidebar-primary: 40 40% 57%;
+    --sidebar-primary-foreground: 24 9% 6%;
+    --sidebar-accent: 24 14% 23%;
+    --sidebar-accent-foreground: 40 10% 90%;
+    --sidebar-border: 40 10% 20%;
+    --sidebar-ring: 40 40% 57%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", system-ui, sans-serif;
+  }
+
+  .font-serif {
+    font-family: "Playfair Display", serif;
+  }
+
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #3b2a23;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c6a55c;
+  }
+
+  section,
+  footer {
+    position: relative;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+}
+
+.fullscreen-section {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: clamp(1.5rem, 4vh, 3rem);
+  padding-bottom: clamp(1.5rem, 4vh, 3rem);
+}
+
+.section-shell {
+  width: 100%;
+}
+
+/* Portfolio Cinematic Redesign Styles */
+.portfolio-cinema-section {
+  position: relative;
+  background-color: #000000;
+  padding: clamp(1.5rem, 3vh, 2.5rem) 0;
+  overflow: hidden;
+  color: white;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.portfolio-bg-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-20%, -30%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+}
+
+.portfolio-cinema-inner {
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+}
+
+.portfolio-cinema-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.portfolio-cinema-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+.portfolio-cinema-divider {
+  width: 80px;
+  height: 2px;
+  background-color: #c6a55c;
+  margin: 0 auto 20px;
+}
+
+.portfolio-cinema-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.portfolio-tab-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portfolio-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.portfolio-tab-btn.active {
+  background: #c6a55c;
+  color: #000;
+  border-color: #c6a55c;
+  box-shadow: 0 0 30px rgba(198, 165, 92, 0.3);
+}
+
+.portfolio-slider-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.portfolio-slider-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding: 10px 0 36px;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.slider-spacer {
+  flex: 0 0 calc(50vw - 160px);
+}
+
+.cinema-card {
+  flex: 0 0 320px;
+  aspect-ratio: 10/14;
+  position: relative;
+  border-radius: 32px;
+  overflow: visible;
+  /* To allow glow ring to show */
+  cursor: pointer;
+  transform-origin: center;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.card-glow-ring {
+  position: absolute;
+  inset: -15px;
+  border-radius: 45px;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.4) 0%, transparent 70%);
+  z-index: -1;
+  animation: glow-pulse 3s infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.card-image-wrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-cover: cover;
+}
+
+.card-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.4) 30%, transparent 100%);
+}
+
+.card-top-row {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-logo-badge {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-logo-letter {
+  color: #000;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.card-rating-badge {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 4px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rating-star {
+  font-size: 12px;
+}
+
+.rating-value {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card-category-badge {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.card-info {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  right: 25px;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 2px;
+  letter-spacing: -0.02em;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.card-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.play-icon {
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.portfolio-arrows {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: -18px;
+  position: relative;
+  z-index: 20;
+}
+
+.arrow-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.arrow-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.1);
+}
+
+.arrow-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.portfolio-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.portfolio-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.portfolio-dot.active {
+  background: #c6a55c;
+  width: 20px;
+  border-radius: 10px;
+}
+
+/* Scrollbar hiding utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media (max-width: 768px) {
+  .cinema-card {
+    flex: 0 0 280px;
+  }
+
+  .slider-spacer {
+    flex: 0 0 calc(50vw - 140px);
+  }
+
+  .portfolio-cinema-inner {
+    padding: 0 20px;
+  }
+}
