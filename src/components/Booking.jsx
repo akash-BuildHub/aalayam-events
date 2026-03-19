@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, Send, Loader2, CheckCircle2 } from 'lucide-react';
+import { Calendar, Clock, Send, Loader2, CheckCircle2, ChevronDown } from 'lucide-react';
 import { sendBookingEmail } from '../services/emailService';
 
 export default function Booking() {
@@ -198,7 +198,7 @@ export default function Booking() {
                       {formData.service ? formData.service.charAt(0).toUpperCase() + formData.service.slice(1) : 'Select Shoot Type'}
                     </span>
                     <div className={`transition-transform duration-300 ${serviceOpen ? 'rotate-180' : ''}`}>
-                      <span className="text-[#c6a55c] text-[10px]">v</span>
+                      <ChevronDown className="w-4 h-4 text-[#c6a55c]" />
                     </div>
                   </button>
                   {serviceOpen && (
