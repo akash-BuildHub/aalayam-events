@@ -9,6 +9,7 @@ export default function Booking() {
 
   const [formData, setFormData] = useState({
     name: '',
+    location: '',
     email: '',
     phone: '',
     service: '',
@@ -44,7 +45,7 @@ export default function Booking() {
     if (result.success) {
       setSubmitStatus('success');
       setFormData({
-        name: '', email: '', phone: '', service: '', date: '', time: '', message: ''
+        name: '', location: '', email: '', phone: '', service: '', date: '', time: '', message: ''
       });
     } else {
       setSubmitStatus('error');
@@ -108,7 +109,7 @@ export default function Booking() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 relative z-10">
             <motion.div variants={itemVariants} className="space-y-4 bg-[#0f0f0f]/35 border border-[#c6a55c]/10 rounded-2xl p-4 md:p-5">
               <div className="space-y-2">
-                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Full Name</label>
+                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Name</label>
                 <input
                   required
                   type="text"
@@ -144,48 +145,15 @@ export default function Booking() {
 
             <motion.div variants={itemVariants} className="space-y-4 bg-[#0f0f0f]/35 border border-[#c6a55c]/10 rounded-2xl p-4 md:p-5">
               <div className="space-y-2">
-                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Service</label>
-                <div className="relative">
-                  <button
-                    type="button"
-                    onClick={() => setServiceOpen(!serviceOpen)}
-                    className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground text-left py-3.5 px-4 focus:outline-none flex justify-between items-center rounded-xl transition-all duration-300 text-base"
-                  >
-                    <span className={formData.service ? 'text-foreground' : 'text-foreground/20 font-light'}>
-                      {formData.service ? formData.service.charAt(0).toUpperCase() + formData.service.slice(1) : 'Select Collection'}
-                    </span>
-                    <div className={`transition-transform duration-300 ${serviceOpen ? 'rotate-180' : ''}`}>
-                      <span className="text-[#c6a55c] text-[10px]">▼</span>
-                    </div>
-                  </button>
-                  {serviceOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="absolute top-full left-0 right-0 bg-[#0a0a0a] border border-[#c6a55c]/10 mt-1 rounded-xl z-20 shadow-2xl overflow-hidden"
-                    >
-                      {[
-                        ['wedding', 'Wedding Story'],
-                        ['portrait', 'Portrait Session'],
-                        ['branding', 'Brand Identity'],
-                        ['event', 'Event Special'],
-                        ['travel', 'Destination'],
-                        ['other', 'Custom']
-                      ].map(([value, label]) => (
-                        <div
-                          key={value}
-                          onClick={() => {
-                            setFormData({ ...formData, service: label });
-                            setServiceOpen(false);
-                          }}
-                          className="px-4 py-2.5 hover:bg-[#c6a55c]/10 cursor-pointer text-foreground/70 hover:text-[#c6a55c] text-sm transition-colors border-b border-[#c6a55c]/5 last:border-b-0"
-                        >
-                          {label}
-                        </div>
-                      ))}
-                    </motion.div>
-                  )}
-                </div>
+                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Location</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="Ex. Chennai"
+                  className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 placeholder:text-foreground/20 font-light text-base"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                />
               </div>
               <div className="space-y-2">
                 <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Preferred Date</label>
@@ -218,6 +186,52 @@ export default function Booking() {
             </motion.div>
 
             <motion.div variants={itemVariants} className="space-y-4 md:col-span-2 lg:col-span-1 bg-[#0f0f0f]/35 border border-[#c6a55c]/10 rounded-2xl p-4 md:p-5">
+              <div className="space-y-2">
+                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Shoot Type</label>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setServiceOpen(!serviceOpen)}
+                    className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground text-left py-3.5 px-4 focus:outline-none flex justify-between items-center rounded-xl transition-all duration-300 text-base"
+                  >
+                    <span className={formData.service ? 'text-foreground' : 'text-foreground/20 font-light'}>
+                      {formData.service ? formData.service.charAt(0).toUpperCase() + formData.service.slice(1) : 'Select Shoot Type'}
+                    </span>
+                    <div className={`transition-transform duration-300 ${serviceOpen ? 'rotate-180' : ''}`}>
+                      <span className="text-[#c6a55c] text-[10px]">v</span>
+                    </div>
+                  </button>
+                  {serviceOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="absolute top-full left-0 right-0 bg-[#0a0a0a] border border-[#c6a55c]/10 mt-1 rounded-xl z-20 shadow-2xl overflow-hidden"
+                    >
+                      {[
+                        ['wedding-coverage', 'Wedding Coverage'],
+                        ['pre-wedding-shoot', 'Pre-Wedding Shoot'],
+                        ['portrait-sessions', 'Portrait Sessions'],
+                        ['maternity-baby-shoots', 'Maternity & Baby Shoots'],
+                        ['event-coverage', 'Event Coverage'],
+                        ['brand-commercial-shoots', 'Brand & Commercial Shoots'],
+                        ['destination-shoots', 'Destination Shoots'],
+                        ['custom-projects', 'Custom Projects']
+                      ].map(([value, label]) => (
+                        <div
+                          key={value}
+                          onClick={() => {
+                            setFormData({ ...formData, service: label });
+                            setServiceOpen(false);
+                          }}
+                          className="px-4 py-2.5 hover:bg-[#c6a55c]/10 cursor-pointer text-foreground/70 hover:text-[#c6a55c] text-sm transition-colors border-b border-[#c6a55c]/5 last:border-b-0"
+                        >
+                          {label}
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
+                </div>
+              </div>
               <div className="space-y-2">
                 <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Message & Vision</label>
                 <textarea
@@ -297,3 +311,5 @@ export default function Booking() {
     </section>
   );
 }
+
+
