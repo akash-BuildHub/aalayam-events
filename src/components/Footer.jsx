@@ -6,7 +6,15 @@ export default function Footer() {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const nav = document.querySelector('nav');
+      const navHeight = nav ? nav.getBoundingClientRect().height : 0;
+      const elementTop = element.getBoundingClientRect().top + window.scrollY;
+      const offsetTop = Math.max(0, elementTop - navHeight);
+
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth',
+      });
     }
   };
 
