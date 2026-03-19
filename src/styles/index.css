@@ -138,341 +138,198 @@
   width: 100%;
 }
 
-/* Portfolio Cinematic Redesign Styles */
-.portfolio-cinema-section {
-  position: relative;
-  background-color: #000000;
-  padding: clamp(1.5rem, 3vh, 2.5rem) 0;
+/* =============================================
+   GALLERY — GSAP Scroll-Triggered Animations
+   ============================================= */
+
+.gallery-root {
+  background: #000;
+  color: #fff;
   overflow: hidden;
-  color: white;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
-.portfolio-bg-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-20%, -30%);
-  width: 800px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(229, 9, 20, 0.15) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(80px);
-}
-
-.portfolio-cinema-inner {
-  position: relative;
-  z-index: 10;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 40px;
-  width: 100%;
-}
-
-.portfolio-cinema-header {
+/* Top "Our Gallery" header */
+.gallery-header {
   text-align: center;
-  margin-bottom: 18px;
+  padding: clamp(5rem, 10vh, 8rem) 40px clamp(2rem, 5vh, 4rem);
 }
 
-.portfolio-cinema-title {
+.gallery-main-title {
   font-family: "Playfair Display", serif;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
   font-weight: 700;
-  margin-bottom: 24px;
   font-style: italic;
+  margin-bottom: 28px;
+  transform-origin: center;
 }
 
-.portfolio-cinema-divider {
-  width: 80px;
+.gallery-main-divider {
+  width: 100px;
   height: 2px;
-  background-color: #c6a55c;
-  margin: 0 auto 20px;
+  background: #c6a55c;
+  margin: 0 auto;
+  transform-origin: center;
 }
 
-.portfolio-cinema-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.portfolio-tab-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 10px 24px;
-  border-radius: 100px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+/* ---- Category section ---- */
+.gallery-category-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.portfolio-tab-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.portfolio-tab-btn.active {
-  background: #c6a55c;
-  color: #000;
-  border-color: #c6a55c;
-  box-shadow: 0 0 30px rgba(198, 165, 92, 0.3);
-}
-
-.portfolio-slider-wrapper {
-  position: relative;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.portfolio-slider-track {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  padding: 10px 0 36px;
-  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-}
-
-.slider-spacer {
-  flex: 0 0 calc(50vw - 160px);
-}
-
-.cinema-card {
-  flex: 0 0 320px;
-  aspect-ratio: 10/14;
-  position: relative;
-  border-radius: 32px;
-  overflow: visible;
-  /* To allow glow ring to show */
-  cursor: pointer;
-  transform-origin: center;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-}
-
-.card-glow-ring {
-  position: absolute;
-  inset: -15px;
-  border-radius: 45px;
-  background: radial-gradient(circle, rgba(229, 9, 20, 0.4) 0%, transparent 70%);
-  z-index: -1;
-  animation: glow-pulse 3s infinite alternate;
-}
-
-@keyframes glow-pulse {
-  from {
-    opacity: 0.5;
-    transform: scale(0.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-}
-
-.card-image-wrap {
-  width: 100%;
-  height: 100%;
-  border-radius: 32px;
   overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #000;
 }
 
-.card-image {
-  width: 100%;
-  height: 100%;
-  object-cover: cover;
-}
-
-.card-gradient {
+.gallery-bg-glow {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.4) 30%, transparent 100%);
+  background: radial-gradient(ellipse 60% 60% at 20% 50%, var(--glow-color, rgba(229,9,20,0.15)), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
 }
 
-.card-top-row {
+/* Title block — pinned to left by GSAP */
+.gallery-title-block {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card-logo-badge {
-  width: 32px;
-  height: 32px;
-  background: white;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-logo-letter {
-  color: #000;
-  font-weight: 900;
-  font-size: 18px;
-}
-
-.card-rating-badge {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  padding: 4px 10px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.rating-star {
-  font-size: 12px;
-}
-
-.rating-value {
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.card-category-badge {
-  position: absolute;
-  top: 80px;
-  left: 20px;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-}
-
-.card-info {
-  position: absolute;
-  bottom: 25px;
-  left: 25px;
-  right: 25px;
-}
-
-.card-title {
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 2px;
-  letter-spacing: -0.02em;
-}
-
-.card-subtitle {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
-}
-
-.card-play-btn {
-  position: absolute;
+  left: clamp(24px, 5vw, 80px);
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
+  z-index: 20;
+  pointer-events: none;
+  max-width: 260px;
+}
+
+.gallery-title-eyebrow {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 14px;
+  font-family: "Inter", sans-serif;
+}
+
+.gallery-title-text {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.05;
+  margin-bottom: 18px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.gallery-title-line {
+  width: 50px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* Horizontal image track viewport */
+.gallery-track-viewport {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  padding-left: clamp(280px, 32vw, 420px);
+}
+
+.gallery-image-track {
+  display: flex;
+  gap: clamp(16px, 2vw, 28px);
+  align-items: center;
+  padding: 60px 80px 60px 0;
+  will-change: transform;
+  flex-shrink: 0;
+}
+
+/* Individual image card */
+.gallery-image-card {
+  position: relative;
+  flex-shrink: 0;
+  width: clamp(260px, 22vw, 340px);
+  height: clamp(360px, 30vw, 480px);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  will-change: transform, opacity;
+}
+
+.gallery-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.gallery-image-card:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.7) 0%,
+    rgba(0,0,0,0.1) 40%,
+    transparent 100%
+  );
   pointer-events: none;
 }
 
-.play-icon {
-  width: 70px;
-  height: 70px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(15px);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+.gallery-card-num {
+  position: absolute;
+  bottom: 18px;
+  right: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.35);
+  font-family: "Inter", sans-serif;
 }
 
-.portfolio-arrows {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  margin-top: -18px;
-  position: relative;
-  z-index: 20;
-}
-
-.arrow-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.arrow-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.15);
-  transform: scale(1.1);
-}
-
-.arrow-btn:disabled {
-  opacity: 0.2;
-  cursor: not-allowed;
-}
-
-.portfolio-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.portfolio-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.portfolio-dot.active {
-  background: #c6a55c;
-  width: 20px;
-  border-radius: 10px;
-}
-
-/* Scrollbar hiding utilities */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
+/* Mobile fallback — disable horizontal scroll pin */
 @media (max-width: 768px) {
-  .cinema-card {
-    flex: 0 0 280px;
+  .gallery-category-section {
+    min-height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 60px 20px 40px;
+    gap: 32px;
   }
 
-  .slider-spacer {
-    flex: 0 0 calc(50vw - 140px);
+  .gallery-title-block {
+    position: static;
+    transform: none;
+    max-width: 100%;
   }
 
-  .portfolio-cinema-inner {
-    padding: 0 20px;
+  .gallery-track-viewport {
+    padding-left: 0;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .gallery-track-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gallery-image-track {
+    transform: none !important;
+    padding: 0 20px 0 0;
+  }
+
+  .gallery-image-card {
+    width: 240px;
+    height: 320px;
   }
 }
