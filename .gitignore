@@ -1,4 +1,34 @@
-dist/
+# Dependencies
 node_modules/
-.wrangler/
+
+# Build output
+dist/
+dist-ssr/
+coverage/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
 .dev.vars
+
+# Wrangler / Cloudflare local state
+.wrangler/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# TypeScript / tooling caches
+*.tsbuildinfo
+.cache/
+.eslintcache
