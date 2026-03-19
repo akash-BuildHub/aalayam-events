@@ -1,5 +1,29 @@
+import { useRef, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
+import { Quote } from 'lucide-react';
+
+function StarIcon({ className, style, forwardRef }) {
+  return (
+    <svg
+      ref={forwardRef}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      className={className}
+      style={style}
+      aria-hidden="true"
+    >
+      <polygon
+        points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
+  );
+}
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const testimonials = [
   {
@@ -45,6 +69,73 @@ const testimonials = [
     image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop',
   },
 ];
+
+function StarRating({ count }) {
+  const starRefs = useRef([]);
+  const wrapRef  = useRef(null);
+
+  useLayoutEffect(() => {
+    const stars = starRefs.current.filter(Boolean);
+    if (!stars.length) return;
+
+    // Reset to dim state initially
+    gsap.set(stars, { opacity: 0.15, scale: 0.7 });
+
+    const tl = gsap.timeline({
+      paused: true,
+      defaults: { ease: 'power2.out' },
+    });
+
+    stars.forEach((star, i) => {
+      const isLast = i === stars.length - 1;
+
+      if (isLast) {
+        // 5th star — slow, dramatic build-up then a sustained radiant glow
+        tl.to(star, { opacity: 0.6, scale: 1.0, duration: 0.35, ease: 'power1.in',
+                       filter: 'drop-shadow(0 0 2px #c6a55c)' }, i * 0.13)
+          // Brief dim flicker — feels like it's charging
+          .to(star, { opacity: 0.2, scale: 0.9, filter: 'drop-shadow(0 0 0px #c6a55c)', duration: 0.25, ease: 'power2.in' })
+          // Slow, weighty rise to full brightness
+          .to(star, { opacity: 1, scale: 1.7, duration: 0.55, ease: 'power3.out',
+                       filter: 'drop-shadow(0 0 12px #c6a55c) drop-shadow(0 0 28px #ffde8a)' })
+          // Settle with a long elastic bounce — draws the eye
+          .to(star, { scale: 1.25, duration: 0.65, ease: 'elastic.out(1.5, 0.45)',
+                       filter: 'drop-shadow(0 0 8px #c6a55c) drop-shadow(0 0 18px #ffde8a)' })
+          // Slow fade of glow — star stays larger than the rest
+          .to(star, { scale: 1.15, filter: 'drop-shadow(0 0 5px #c6a55c)', duration: 0.5, ease: 'sine.out' });
+      } else {
+        // Stars 1-4 — quick sequential blink
+        tl.to(star, { opacity: 1, scale: 1.25, duration: 0.18 }, i * 0.13)
+          .to(star, { scale: 1,   duration: 0.22, ease: 'back.out(2)' });
+      }
+    });
+
+    const trigger = ScrollTrigger.create({
+      trigger: wrapRef.current,
+      start: 'top 85%',
+      onEnter: () => tl.restart(),
+      onEnterBack: () => tl.restart(),
+    });
+
+    return () => {
+      trigger.kill();
+      tl.kill();
+    };
+  }, []);
+
+  return (
+    <div ref={wrapRef} className="flex gap-1.5 mb-8">
+      {Array.from({ length: count }).map((_, i) => (
+        <StarIcon
+          key={i}
+          forwardRef={(el) => (starRefs.current[i] = el)}
+          className="w-3.5 h-3.5 text-[#c6a55c]"
+          style={{ filter: 'drop-shadow(0 0 0px #c6a55c)' }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function Review() {
   const containerVariants = {
@@ -111,11 +202,7 @@ export default function Review() {
               </div>
 
               {/* Rating */}
-              <div className="flex gap-1.5 mb-8">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-[#c6a55c] text-[#c6a55c]" />
-                ))}
-              </div>
+              <StarRating count={testimonial.rating} />
 
               {/* Testimonial Text */}
               <p className="text-foreground/70 mb-10 leading-relaxed relative z-10 font-light italic">
