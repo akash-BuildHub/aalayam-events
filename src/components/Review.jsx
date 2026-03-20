@@ -1,8 +1,10 @@
 import { useRef, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-function StarIcon({ className, style, forwardRef }) {
+function StarIcon({ className, style, forwardRef, fillRef }) {
   return (
     <svg
       ref={forwardRef}
@@ -12,16 +14,22 @@ function StarIcon({ className, style, forwardRef }) {
       style={style}
       aria-hidden="true"
     >
-      <polygon
-        points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+      <path
+        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinejoin="miter"
+      />
+      <path
+        ref={fillRef}
+        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
         fill="currentColor"
-        stroke="none"
+        opacity="0"
       />
     </svg>
   );
 }
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,41 +80,62 @@ const testimonials = [
 
 function StarRating({ count }) {
   const starRefs = useRef([]);
-  const wrapRef  = useRef(null);
+  const fillRefs = useRef([]);
+  const wrapRef = useRef(null);
 
   useLayoutEffect(() => {
     const stars = starRefs.current.filter(Boolean);
-    if (!stars.length) return;
+    const fills = fillRefs.current.filter(Boolean);
+    if (!stars.length || !fills.length) return;
 
-    // Reset to dim state initially
-    gsap.set(stars, { opacity: 0.15, scale: 0.7 });
+    // Initial state: outlined stars, no fill
+    gsap.set(stars, { opacity: 0.35, scale: 0.7, filter: 'none' });
+    gsap.set(fills, { opacity: 0 });
 
     const tl = gsap.timeline({
       paused: true,
       defaults: { ease: 'power2.out' },
     });
 
+    tl.to({}, { duration: 0.05 });
+
     stars.forEach((star, i) => {
       const isLast = i === stars.length - 1;
 
       if (isLast) {
-        // 5th star — slow, dramatic build-up then a sustained radiant glow
-        tl.to(star, { opacity: 0.6, scale: 1.0, duration: 0.35, ease: 'power1.in',
-                       filter: 'drop-shadow(0 0 2px #c6a55c)' }, i * 0.13)
-          // Brief dim flicker — feels like it's charging
-          .to(star, { opacity: 0.2, scale: 0.9, filter: 'drop-shadow(0 0 0px #c6a55c)', duration: 0.25, ease: 'power2.in' })
-          // Slow, weighty rise to full brightness
-          .to(star, { opacity: 1, scale: 1.7, duration: 0.55, ease: 'power3.out',
-                       filter: 'drop-shadow(0 0 12px #c6a55c) drop-shadow(0 0 28px #ffde8a)' })
-          // Settle with a long elastic bounce — draws the eye
-          .to(star, { scale: 1.25, duration: 0.65, ease: 'elastic.out(1.5, 0.45)',
-                       filter: 'drop-shadow(0 0 8px #c6a55c) drop-shadow(0 0 18px #ffde8a)' })
-          // Slow fade of glow — star stays larger than the rest
-          .to(star, { scale: 1.15, filter: 'drop-shadow(0 0 5px #c6a55c)', duration: 0.5, ease: 'sine.out' });
+        // 5th star: slightly slower, more dramatic finish
+        tl.to(star, {
+          opacity: 1,
+          scale: 1.3,
+          duration: 0.09,
+          filter: 'drop-shadow(0 0 6px #c6a55c)',
+        })
+          .to(fills[i], { opacity: 1, duration: 0.18, ease: 'power2.out' }, '<')
+          .to(star, {
+            scale: 1.08,
+            duration: 0.18,
+            ease: 'elastic.out(1.2, 0.5)',
+            filter: 'drop-shadow(0 0 10px #c6a55c) drop-shadow(0 0 20px #ffde8a)',
+          })
+          .to(star, {
+            scale: 1,
+            duration: 0.1,
+            ease: 'sine.out',
+            filter: 'drop-shadow(0 0 3px #c6a55c)',
+          });
       } else {
-        // Stars 1-4 — quick sequential blink
-        tl.to(star, { opacity: 1, scale: 1.25, duration: 0.18 }, i * 0.13)
-          .to(star, { scale: 1,   duration: 0.22, ease: 'back.out(2)' });
+        // Stars 1-4: faster sequential fill
+        tl.to(star, {
+          opacity: 1,
+          scale: 1.16,
+          duration: 0.06,
+        })
+          .to(fills[i], { opacity: 1, duration: 0.06, ease: 'power1.out' }, '<')
+          .to(star, {
+            scale: 1,
+            duration: 0.06,
+            ease: 'back.out(2)',
+          });
       }
     });
 
@@ -129,8 +158,9 @@ function StarRating({ count }) {
         <StarIcon
           key={i}
           forwardRef={(el) => (starRefs.current[i] = el)}
-          className="w-3.5 h-3.5 text-[#c6a55c]"
-          style={{ filter: 'drop-shadow(0 0 0px #c6a55c)' }}
+          fillRef={(el) => (fillRefs.current[i] = el)}
+          className="w-5 h-5 text-[#c6a55c]"
+          style={{ filter: 'none' }}
         />
       ))}
     </div>

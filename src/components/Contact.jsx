@@ -31,7 +31,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-serif text-foreground mb-6 italic leading-[1.25]"
+            className="text-4xl md:text-5xl font-serif text-foreground mb-6 leading-[1.25]"
           >
             Let's Start Your Story
           </motion.h2>
@@ -54,7 +54,7 @@ export default function Contact() {
             className="space-y-7"
           >
             <div>
-              <motion.h3 variants={itemVariants} className="text-2xl md:text-3xl font-serif text-foreground mb-4 italic">Inquiries & Consultations</motion.h3>
+              <motion.h3 variants={itemVariants} className="text-2xl md:text-3xl font-serif text-foreground mb-4">Inquiries & Consultations</motion.h3>
               <motion.p variants={itemVariants} className="text-foreground/50 leading-relaxed max-w-lg font-light">
                 Every masterpiece begins with a conversation. Whether it's a grand celebration or an intimate portrait, we're here to translate your vision into timeless imagery.
               </motion.p>
@@ -74,11 +74,11 @@ export default function Contact() {
                   <div>
                     <div className="text-[10px] uppercase tracking-widest text-[#c6a55c] font-bold mb-1">{item.label}</div>
                     {item.href ? (
-                      <a href={item.href} className="text-foreground hover:text-[#c6a55c] transition-colors font-light text-base md:text-lg">
+                      <a href={item.href} className="text-foreground hover:text-[#c6a55c] transition-colors font-light text-sm md:text-base">
                         {item.value}
                       </a>
                     ) : (
-                      <span className="text-foreground font-light text-base md:text-lg">{item.value}</span>
+                      <span className="text-foreground font-light text-sm md:text-base">{item.value}</span>
                     )}
                   </div>
                 </motion.div>
@@ -107,7 +107,7 @@ export default function Contact() {
               <div className="absolute bottom-6 left-6 right-6 p-6 bg-[#0f0f0f]/80 backdrop-blur-xl border border-[#c6a55c]/20 rounded-3xl">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h4 className="text-xl md:text-2xl font-serif text-foreground mb-1 italic">Aalayam Studio</h4>
+                    <h4 className="text-xl md:text-2xl font-serif text-foreground mb-1">Aalayam Studio</h4>
                     <p className="text-[#c6a55c] text-[10px] uppercase tracking-widest font-bold">All over India</p>
                   </div>
                   <div className="w-12 h-12 bg-[#c6a55c] rounded-2xl flex items-center justify-center text-[#0f0f0f]">

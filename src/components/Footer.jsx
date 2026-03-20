@@ -24,7 +24,7 @@ export default function Footer() {
         <div className="grid lg:grid-cols-12 gap-16 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-5">
-            <h3 className="text-3xl font-serif text-foreground mb-8 italic tracking-tight">Aalayam Events</h3>
+            <h3 className="text-3xl font-serif text-foreground mb-8 tracking-tight">Aalayam Events</h3>
             <p className="text-foreground/40 leading-relaxed font-light mb-10 max-w-md">
               A symphony of light and emotion. We don't just capture images; we preserve the soul of your most cherished celebrations through an artistic lens.
             </p>
@@ -79,11 +79,11 @@ export default function Footer() {
                   </div>
                   <div className="pt-1">
                     {item.href ? (
-                      <a href={item.href} className="text-foreground/50 hover:text-foreground transition-colors font-light text-sm">
+                      <a href={item.href} className="text-foreground/50 hover:text-foreground transition-colors font-light text-xs">
                         {item.value}
                       </a>
                     ) : (
-                      <span className="text-foreground/50 font-light text-sm">{item.value}</span>
+                      <span className="text-foreground/50 font-light text-xs">{item.value}</span>
                     )}
                   </div>
                 </li>

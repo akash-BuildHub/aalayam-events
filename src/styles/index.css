@@ -229,6 +229,30 @@
   border-radius: 2px;
 }
 
+/* Portrait mode: title at top + centered coverflow track */
+.gallery-category-section.portrait-mode {
+  align-items: center;
+  perspective: 1200px;
+}
+
+.gallery-title-block.portrait-title-top {
+  top: clamp(44px, 7vh, 78px);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  max-width: none;
+  z-index: 60;
+  width: min(92vw, 760px);
+  padding: 10px 18px 14px;
+  border-radius: 18px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.25));
+  backdrop-filter: blur(4px);
+}
+
+.gallery-title-block.portrait-title-top .gallery-title-line {
+  margin: 0 auto;
+}
+
 /* Horizontal image track viewport */
 .gallery-track-viewport {
   position: relative;
@@ -247,6 +271,206 @@
   padding: 60px 80px 60px 0;
   will-change: transform;
   flex-shrink: 0;
+}
+
+.gallery-track-viewport.portrait-track-viewport {
+  padding-left: 0;
+  justify-content: flex-start;
+  z-index: 8;
+}
+
+.gallery-image-track.portrait-image-track {
+  gap: clamp(14px, 1.8vw, 22px);
+  padding: clamp(175px, 24vh, 250px) calc(50vw - clamp(150px, 13vw, 205px)) 70px;
+  transform-style: preserve-3d;
+}
+
+.gallery-image-card.portrait-image-card {
+  width: clamp(300px, 26vw, 410px);
+  height: clamp(400px, 60vh, 580px);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+/* Brand custom flip layout */
+.gallery-category-section.brand-flip-section {
+  min-height: 100vh;
+  padding: clamp(70px, 10vh, 115px) clamp(24px, 5vw, 80px);
+}
+
+.brand-flip-layout {
+  position: relative;
+  z-index: 10;
+  width: min(1220px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: start;
+  gap: clamp(8px, 1.2vw, 16px);
+  justify-content: center;
+}
+
+.brand-flip-title-wrap {
+  align-self: start;
+  justify-self: end;
+  position: relative;
+  left: 128px;
+  padding-top: 0;
+  min-width: clamp(130px, 12vw, 180px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-flip-title-wrap .gallery-title-text {
+  writing-mode: horizontal-tb;
+  transform: none;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.brand-flip-title-wrap .gallery-title-line {
+  width: 3px;
+  height: 300px;
+  margin-top: 0;
+}
+
+.brand-stacked-title {
+  white-space: normal;
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+  font-size: clamp(2.3rem, 4vw, 4rem);
+  text-align: center;
+  font-style: normal;
+}
+
+.brand-stacked-title span {
+  display: block;
+  text-align: center;
+}
+
+.brand-flip-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(380px, 490px));
+  gap: clamp(22px, 2.6vw, 38px);
+  perspective: 1300px;
+  align-items: start;
+  width: auto;
+  justify-content: center;
+}
+
+.brand-flip-slot {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  transform-style: preserve-3d;
+  overflow: visible;
+}
+
+.brand-flip-card-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.32);
+  backface-visibility: hidden;
+  transform-origin: top center;
+  will-change: transform, opacity;
+}
+
+.brand-flip-card-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Travel + Street custom split layout */
+.gallery-category-section.travel-street-section {
+  min-height: 100vh;
+  padding: clamp(70px, 10vh, 120px) clamp(26px, 5vw, 80px);
+}
+
+.travel-street-layout {
+  position: relative;
+  z-index: 10;
+  width: min(1300px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: clamp(36px, 6vw, 96px);
+}
+
+.travel-street-media {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.travel-street-image {
+  display: block;
+  width: min(100%, 360px);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 24px;
+  will-change: transform, opacity;
+}
+
+.travel-street-stack {
+  position: relative;
+  width: min(100%, 360px);
+  aspect-ratio: 4 / 5;
+  cursor: pointer;
+  user-select: none;
+}
+
+.travel-street-stack-card {
+  position: absolute;
+  inset: 0;
+  transition: transform 280ms ease, opacity 280ms ease;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.5);
+}
+
+.travel-street-content {
+  max-width: 520px;
+  transform: translateY(-24px);
+  margin-left: 46px;
+}
+
+.travel-street-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.05;
+  color: #fff;
+  margin-bottom: 28px;
+  margin-top: -14px;
+}
+
+.travel-street-amp {
+  color: #c6a55c;
+}
+
+.travel-street-title-line {
+  width: 50px;
+  height: 3px;
+  border-radius: 2px;
+  background: #c6a55c;
+  margin-bottom: 22px;
+}
+
+.travel-street-text {
+  font-family: "Inter", sans-serif;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  line-height: 1.85;
+  max-width: 48ch;
+  text-align: justify;
+  font-style: italic;
 }
 
 /* Individual image card */
@@ -312,6 +536,11 @@
     max-width: 100%;
   }
 
+  .gallery-title-block.portrait-title-top {
+    transform: none;
+    text-align: left;
+  }
+
   .gallery-track-viewport {
     padding-left: 0;
     overflow-x: auto;
@@ -328,8 +557,79 @@
     padding: 0 20px 0 0;
   }
 
+  .gallery-image-track.portrait-image-track {
+    padding: 0 20px 0 0;
+  }
+
   .gallery-image-card {
     width: 240px;
     height: 320px;
+  }
+
+  .gallery-category-section.travel-street-section {
+    min-height: auto;
+    padding: 64px 20px 46px;
+  }
+
+  .travel-street-layout {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .travel-street-content {
+    transform: none;
+    margin-left: 0;
+  }
+
+  .travel-street-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+  }
+
+  .travel-street-stack {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+  }
+
+  .gallery-category-section.brand-flip-section {
+    min-height: auto;
+    padding: 60px 20px 40px;
+  }
+
+  .brand-flip-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    justify-content: stretch;
+  }
+
+  .brand-flip-title-wrap {
+    padding-top: 0;
+    justify-self: start;
+    left: 0;
+    transform: none;
+    align-items: center;
+  }
+
+  .brand-flip-title-wrap .gallery-title-text {
+    writing-mode: horizontal-tb;
+    transform: none;
+    margin-bottom: 12px;
+    font-size: clamp(1.7rem, 8vw, 2.3rem);
+  }
+
+  .brand-flip-title-wrap .gallery-title-line {
+    width: 3px;
+    height: 170px;
+    margin-top: 0;
+  }
+
+  .brand-flip-cards {
+    grid-template-columns: repeat(2, minmax(110px, 1fr));
+    gap: 10px;
+    width: 100%;
+  }
+
+  .brand-flip-slot {
+    aspect-ratio: 1 / 1;
   }
 }

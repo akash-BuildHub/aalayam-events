@@ -106,42 +106,75 @@ export default function Booking() {
         >
           <div className="absolute -top-10 -left-10 w-40 h-40 bg-[#c6a55c]/5 blur-3xl rounded-full" />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 relative z-10">
-            <motion.div variants={itemVariants} className="space-y-4 bg-[#0f0f0f]/35 border border-[#c6a55c]/10 rounded-2xl p-4 md:p-5">
-              <div className="space-y-2">
-                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Name</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="Ex. Pugal"
-                  className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 placeholder:text-foreground/20 font-light text-base"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Email Address</label>
-                <input
-                  required
-                  type="email"
-                  placeholder="Ex. aalayamstudio818@gmail.com"
-                  className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 placeholder:text-foreground/20 font-light text-base"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Phone Number</label>
-                <input
-                  required
-                  type="tel"
-                  placeholder="Ex. +91 63691 50731"
-                  className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 placeholder:text-foreground/20 font-light text-base"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                />
-              </div>
-            </motion.div>
+          <div className="grid md:grid-cols-2 gap-5 relative z-10">
+            <div className="space-y-5">
+              <motion.div variants={itemVariants} className="space-y-4 bg-[#0f0f0f]/35 border border-[#c6a55c]/10 rounded-2xl p-4 md:p-5">
+                <div className="space-y-2">
+                  <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Name</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Ex. Pugal"
+                    className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 placeholder:text-foreground/20 font-light text-base"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Email Address</label>
+                  <input
+                    required
+                    type="email"
+                    placeholder="Ex. aalayamstudio818@gmail.com"
+                    className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 placeholder:text-foreground/20 font-light text-base"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Phone Number</label>
+                  <input
+                    required
+                    type="tel"
+                    placeholder="Ex. +91 63691 50731"
+                    className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 placeholder:text-foreground/20 font-light text-base"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="space-y-4 bg-[#0f0f0f]/35 border border-[#c6a55c]/10 rounded-2xl p-4 md:p-5">
+                <div className="space-y-2">
+                  <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Preferred Date</label>
+                  <div className="relative cursor-pointer" onClick={() => handlePickerTrigger(dateInputRef)}>
+                    <input
+                      required
+                      ref={dateInputRef}
+                      type="date"
+                      className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-clear-button]:hidden text-base"
+                      value={formData.date}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    />
+                    <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#c6a55c]/50 pointer-events-none" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Preferred Time</label>
+                  <div className="relative cursor-pointer" onClick={() => handlePickerTrigger(timeInputRef)}>
+                    <input
+                      required
+                      ref={timeInputRef}
+                      type="time"
+                      className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-clear-button]:hidden text-base"
+                      value={formData.time}
+                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                    />
+                    <Clock className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#c6a55c]/50 pointer-events-none" />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
 
             <motion.div variants={itemVariants} className="space-y-4 bg-[#0f0f0f]/35 border border-[#c6a55c]/10 rounded-2xl p-4 md:p-5">
               <div className="space-y-2">
@@ -155,37 +188,6 @@ export default function Booking() {
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Preferred Date</label>
-                <div className="relative cursor-pointer" onClick={() => handlePickerTrigger(dateInputRef)}>
-                  <input
-                    required
-                    ref={dateInputRef}
-                    type="date"
-                    className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-clear-button]:hidden text-base"
-                    value={formData.date}
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                  />
-                  <Calendar className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#c6a55c]/50 pointer-events-none" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Preferred Time</label>
-                <div className="relative cursor-pointer" onClick={() => handlePickerTrigger(timeInputRef)}>
-                  <input
-                    required
-                    ref={timeInputRef}
-                    type="time"
-                    className="w-full bg-[#0f0f0f] border border-[#c6a55c]/10 focus:border-[#c6a55c] text-foreground rounded-xl px-4 py-3.5 focus:outline-none transition-all duration-300 [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-clear-button]:hidden text-base"
-                    value={formData.time}
-                    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                  />
-                  <Clock className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#c6a55c]/50 pointer-events-none" />
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="space-y-4 md:col-span-2 lg:col-span-1 bg-[#0f0f0f]/35 border border-[#c6a55c]/10 rounded-2xl p-4 md:p-5">
               <div className="space-y-2">
                 <label className="text-[#c6a55c] text-[11px] uppercase tracking-[0.18em] font-bold ml-1">Shoot Type</label>
                 <div className="relative">
