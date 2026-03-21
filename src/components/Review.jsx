@@ -1,8 +1,9 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getApprovedFeedback, onApprovedFeedbackUpdated } from '@/services/feedbackService';
 
 function StarIcon({ className, style, forwardRef, fillRef }) {
   return (
@@ -77,6 +78,27 @@ const testimonials = [
     image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop',
   },
 ];
+
+const toTestimonialCard = (entry) => ({
+  name: entry.name || 'Client Review',
+  event: [entry.event, entry.location].filter(Boolean).join(', ') || 'Client Session',
+  rating: Number(entry.rating) || 5,
+  text: entry.text || '',
+  image: entry.image || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop',
+});
+
+const getCardsPerSlide = (width) => {
+  if (width < 768) return 1;
+  if (width < 1100) return 2;
+  return 3;
+};
+
+const splitIntoSlides = (items, size) => {
+  if (!items.length) return [];
+  const slides = [];
+  for (let i = 0; i < items.length; i += size) slides.push(items.slice(i, i + size));
+  return slides;
+};
 
 function StarRating({ count }) {
   const starRefs = useRef([]);
@@ -168,15 +190,36 @@ function StarRating({ count }) {
 }
 
 export default function Review() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  const [approvedTestimonials, setApprovedTestimonials] = useState(() =>
+    getApprovedFeedback().map(toTestimonialCard)
+  );
+  const [cardsPerSlide, setCardsPerSlide] = useState(() =>
+    typeof window === 'undefined' ? 3 : getCardsPerSlide(window.innerWidth)
+  );
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => onApprovedFeedbackUpdated((items) => {
+    setApprovedTestimonials(items.map(toTestimonialCard));
+  }), []);
+
+  const mergedTestimonials = useMemo(
+    () => [...approvedTestimonials, ...testimonials],
+    [approvedTestimonials]
+  );
+  const testimonialSlides = useMemo(
+    () => splitIntoSlides(mergedTestimonials, cardsPerSlide),
+    [mergedTestimonials, cardsPerSlide]
+  );
+
+  useEffect(() => {
+    const onResize = () => setCardsPerSlide(getCardsPerSlide(window.innerWidth));
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  useEffect(() => {
+    setActiveSlide((prev) => Math.min(prev, Math.max(0, testimonialSlides.length - 1)));
+  }, [testimonialSlides.length]);
 
   const itemVariants = {
     hidden: { opacity: 0, scale: 0.9, y: 30 },
@@ -211,54 +254,83 @@ export default function Review() {
           />
         </div>
 
-        {/* Testimonial Cards Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
-        >
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-              className="relative p-10 bg-[#0f0f0f] border border-[#c6a55c]/5 rounded-3xl transition-all duration-500 hover:border-[#c6a55c]/20 hover:shadow-2xl hover:shadow-[#c6a55c]/5 group"
-            >
-              {/* Quote Icon */}
-              <div className="absolute top-8 right-8 text-[#c6a55c]/10 group-hover:text-[#c6a55c]/20 transition-colors">
-                <Quote className="w-16 h-16" />
-              </div>
+        <div className="overflow-hidden">
+          <motion.div
+            className="flex"
+            animate={{ x: `-${activeSlide * 100}%` }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {testimonialSlides.map((slide, slideIdx) => (
+              <div key={slideIdx} className="w-full shrink-0 px-1">
+                <div
+                  className={`grid gap-10 ${
+                    cardsPerSlide === 1
+                      ? 'grid-cols-1'
+                      : cardsPerSlide === 2
+                        ? 'grid-cols-2'
+                        : 'grid-cols-3'
+                  }`}
+                >
+                  {slide.map((testimonial, index) => (
+                    <motion.div
+                      key={`${testimonial.name}-${slideIdx}-${index}`}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
+                      whileHover={{ y: -5 }}
+                      className="relative p-10 bg-[#0f0f0f] border border-[#c6a55c]/5 rounded-3xl transition-all duration-500 hover:border-[#c6a55c]/20 hover:shadow-2xl hover:shadow-[#c6a55c]/5 group"
+                    >
+                      <div className="absolute top-8 right-8 text-[#c6a55c]/10 group-hover:text-[#c6a55c]/20 transition-colors">
+                        <Quote className="w-16 h-16" />
+                      </div>
 
-              {/* Rating */}
-              <StarRating count={testimonial.rating} />
+                      <StarRating count={testimonial.rating} />
 
-              {/* Testimonial Text */}
-              <p className="text-foreground/70 mb-10 leading-relaxed relative z-10 font-light italic">
-                "{testimonial.text}"
-              </p>
+                      <p className="text-foreground/70 mb-10 leading-relaxed relative z-10 font-light italic">
+                        "{testimonial.text}"
+                      </p>
 
-              {/* Client Info */}
-              <div className="flex items-center gap-5 pt-10 border-t border-[#c6a55c]/5">
-                <div className="relative">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-14 h-14 rounded-2xl object-cover border border-[#c6a55c]/20 group-hover:border-[#c6a55c]/50 transition-colors duration-500"
-                  />
-                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-[#c6a55c] rounded-full flex items-center justify-center">
-                    <Check className="w-3 h-3 text-[#0f0f0f]" />
-                  </div>
+                      <div className="flex items-center gap-5 pt-10 border-t border-[#c6a55c]/5">
+                        <div className="relative">
+                          <img
+                            src={testimonial.image}
+                            alt={testimonial.name}
+                            className="w-14 h-14 rounded-2xl object-cover border border-[#c6a55c]/20 group-hover:border-[#c6a55c]/50 transition-colors duration-500"
+                          />
+                          <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-[#c6a55c] rounded-full flex items-center justify-center">
+                            <Check className="w-3 h-3 text-[#0f0f0f]" />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-serif text-lg text-foreground mb-1 italic">{testimonial.name}</div>
+                          <div className="text-[10px] uppercase tracking-widest text-[#c6a55c] font-bold">{testimonial.event}</div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
-                <div>
-                  <div className="font-serif text-lg text-foreground mb-1 italic">{testimonial.name}</div>
-                  <div className="text-[10px] uppercase tracking-widest text-[#c6a55c] font-bold">{testimonial.event}</div>
-                </div>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {testimonialSlides.length > 1 && (
+          <div className="mt-10 flex items-center justify-center gap-3">
+            {testimonialSlides.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                aria-label={`Go to reviews slide ${idx + 1}`}
+                onClick={() => setActiveSlide(idx)}
+                className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+                  idx === activeSlide
+                    ? 'bg-[#c6a55c] shadow-[0_0_0_4px_rgba(198,165,92,0.2)]'
+                    : 'bg-[#c6a55c]/35 hover:bg-[#c6a55c]/65'
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
