@@ -342,16 +342,16 @@
 }
 
 .brand-flip-title-wrap {
-  align-self: center;
+  align-self: start;
   justify-self: end;
   position: relative;
-  left: 128px;
-  padding-top: 0;
+  left: 102px;
+  padding-top: 14px;
   min-width: clamp(130px, 12vw, 180px);
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .brand-flip-title-wrap .gallery-title-text {
@@ -362,23 +362,49 @@
 }
 
 .brand-flip-title-wrap .gallery-title-line {
-  width: 3px;
-  height: 300px;
+  order: -1;
+  width: min(220px, 100%);
+  height: 3px;
   margin-top: 0;
 }
 
 .brand-stacked-title {
+  font-family: "Playfair Display", serif;
   white-space: normal;
-  line-height: 0.9;
-  letter-spacing: 0.03em;
-  font-size: clamp(1.8rem, 3.2vw, 3rem);
-  text-align: center;
+  line-height: 1.34;
+  letter-spacing: 0.01em;
+  font-size: clamp(1.06rem, 1.28vw, 1.38rem);
+  text-align: left;
+  font-style: italic;
+  font-weight: 600;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.brand-acronym-line {
+  display: flex;
+  align-items: baseline;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: inherit;
+  letter-spacing: 0.048em;
+  text-align: left;
+}
+
+.brand-stacked-title > .brand-acronym-line {
+  display: flex;
+}
+
+.brand-acronym-first {
+  color: #c6a55c;
+  font-size: 1.24em;
+  font-weight: 700;
+  display: inline;
   font-style: normal;
 }
 
-.brand-stacked-title span {
-  display: block;
-  text-align: center;
+.brand-acronym-rest {
+  letter-spacing: 0.04em;
+  display: inline;
 }
 
 .brand-flip-cards {
@@ -676,8 +702,8 @@ footer {
   }
 
   .brand-flip-title-wrap .gallery-title-line {
-    width: 3px;
-    height: 170px;
+    width: min(170px, 100%);
+    height: 3px;
     margin-top: 0;
   }
 

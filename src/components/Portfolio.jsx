@@ -543,6 +543,16 @@ function GalleryCategory({ category }) {
     const brandColumns = Array.from({ length: visibleSlots }, (_, slot) =>
       category.images.filter((_, imgIdx) => imgIdx % visibleSlots === slot)
     );
+    const brandingAcronym = [
+      'Building Identity',
+      'Representing Vision',
+      'Authentic Expression',
+      'Narrating Your Journey',
+      'Defining Presence',
+      'Inspiring Trust',
+      'Nurturing Connections',
+      'Growing Authentically',
+    ];
 
     return (
       <section
@@ -583,9 +593,13 @@ function GalleryCategory({ category }) {
           </div>
 
           <div ref={titleRef} className="brand-flip-title-wrap">
-            <h2 className="gallery-title-text brand-stacked-title" aria-label="Branding">
-              {'BRANDING'.split('').map((ch, idx) => (
-                <span key={`${ch}-${idx}`}>{ch}</span>
+            <h2 className="gallery-title-text brand-stacked-title" aria-label="Branding Acronym">
+              {brandingAcronym.map((phrase) => (
+                <span key={phrase} className="brand-acronym-line">
+                  <span className="brand-acronym-first">{phrase.charAt(0)}</span>
+                  {' '}
+                  <span className="brand-acronym-rest">{phrase.slice(1)}</span>
+                </span>
               ))}
             </h2>
             <div className="gallery-title-line" style={{ background: anim.accentColor }} />

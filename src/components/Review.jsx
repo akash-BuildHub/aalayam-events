@@ -100,12 +100,13 @@ const splitIntoSlides = (items, size) => {
   return slides;
 };
 
-function StarRating({ count }) {
+function StarRating({ count, triggerKey }) {
   const starRefs = useRef([]);
   const fillRefs = useRef([]);
-  const wrapRef = useRef(null);
 
   useLayoutEffect(() => {
+    if (!triggerKey) return;
+
     const stars = starRefs.current.filter(Boolean);
     const fills = fillRefs.current.filter(Boolean);
     if (!stars.length || !fills.length) return;
@@ -161,21 +162,15 @@ function StarRating({ count }) {
       }
     });
 
-    const trigger = ScrollTrigger.create({
-      trigger: wrapRef.current,
-      start: 'top 85%',
-      onEnter: () => tl.restart(),
-      onEnterBack: () => tl.restart(),
-    });
+    tl.restart();
 
     return () => {
-      trigger.kill();
       tl.kill();
     };
-  }, []);
+  }, [count, triggerKey]);
 
   return (
-    <div ref={wrapRef} className="flex gap-1.5 mb-8">
+    <div className="flex gap-1.5 mb-8">
       {Array.from({ length: count }).map((_, i) => (
         <StarIcon
           key={i}
@@ -190,25 +185,31 @@ function StarRating({ count }) {
 }
 
 export default function Review() {
+  const sectionRef = useRef(null);
   const [approvedTestimonials, setApprovedTestimonials] = useState(() =>
-    getApprovedFeedback().map(toTestimonialCard)
+    getApprovedFeedback().slice(1).map(toTestimonialCard)
   );
   const [cardsPerSlide, setCardsPerSlide] = useState(() =>
     typeof window === 'undefined' ? 3 : getCardsPerSlide(window.innerWidth)
   );
   const [activeSlide, setActiveSlide] = useState(0);
+  const [sectionVisitCounter, setSectionVisitCounter] = useState(0);
 
   useEffect(() => onApprovedFeedbackUpdated((items) => {
-    setApprovedTestimonials(items.map(toTestimonialCard));
+    setApprovedTestimonials(items.slice(1).map(toTestimonialCard));
   }), []);
 
   const mergedTestimonials = useMemo(
-    () => [...approvedTestimonials, ...testimonials],
+    () => [...approvedTestimonials, ...testimonials].filter((item) => Number(item.rating) === 5),
     [approvedTestimonials]
   );
   const testimonialSlides = useMemo(
     () => splitIntoSlides(mergedTestimonials, cardsPerSlide),
     [mergedTestimonials, cardsPerSlide]
+  );
+  const starAnimationSignal = useMemo(
+    () => `${sectionVisitCounter}-${activeSlide}`,
+    [sectionVisitCounter, activeSlide]
   );
 
   useEffect(() => {
@@ -221,6 +222,19 @@ export default function Review() {
     setActiveSlide((prev) => Math.min(prev, Math.max(0, testimonialSlides.length - 1)));
   }, [testimonialSlides.length]);
 
+  useLayoutEffect(() => {
+    if (!sectionRef.current) return undefined;
+
+    const trigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: 'top 82%',
+      onEnter: () => setSectionVisitCounter((prev) => prev + 1),
+      onEnterBack: () => setSectionVisitCounter((prev) => prev + 1),
+    });
+
+    return () => trigger.kill();
+  }, []);
+
   const itemVariants = {
     hidden: { opacity: 0, scale: 0.9, y: 30 },
     visible: {
@@ -232,7 +246,7 @@ export default function Review() {
   };
 
   return (
-    <section className="allow-overflow-below review-warm-mode py-10 px-6 bg-[#0a0a0a] overflow-visible">
+    <section ref={sectionRef} className="allow-overflow-below review-warm-mode py-10 px-6 bg-[#0a0a0a] overflow-visible">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
@@ -284,7 +298,10 @@ export default function Review() {
                         <Quote className="w-16 h-16" />
                       </div>
 
-                      <StarRating count={testimonial.rating} />
+                      <StarRating
+                        count={testimonial.rating}
+                        triggerKey={slideIdx === activeSlide ? starAnimationSignal : null}
+                      />
 
                       <p className="text-foreground/70 mb-10 leading-relaxed relative z-10 font-light italic">
                         "{testimonial.text}"
