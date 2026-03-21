@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle2, Star, X } from 'lucide-react';
+import { CheckCircle2, Send, Star, X } from 'lucide-react';
 
 export default function FeedbackModal({ isOpen, onClose }) {
   const [rating, setRating] = useState(0);
@@ -44,7 +44,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-start justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-label="Send Your Feedback">
+    <div className="fixed inset-0 z-[120] flex items-start justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="Send Your Feedback">
       <button
         type="button"
         className="absolute inset-0 bg-black/75 backdrop-blur-sm"
@@ -52,8 +52,8 @@ export default function FeedbackModal({ isOpen, onClose }) {
         onClick={onClose}
       />
 
-      <div className="relative z-10 mt-4 flex w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-[#c6a55c]/25 bg-[#13100d] shadow-2xl shadow-black/60 sm:mt-8">
-        <div className="flex items-center justify-between border-b border-[#c6a55c]/15 px-5 py-4 sm:px-6">
+      <div className="relative z-10 mt-0.5 flex w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-[#c6a55c]/25 bg-[#13100d] shadow-2xl shadow-black/60 sm:-translate-y-10">
+        <div className="flex items-center justify-between border-b border-[#c6a55c]/15 px-4 py-3 sm:px-5 sm:py-3.5">
           <h3 className="font-serif text-2xl italic text-foreground">Send Your Feedback</h3>
           <button
             type="button"
@@ -77,14 +77,14 @@ export default function FeedbackModal({ isOpen, onClose }) {
           <>
             <form
               id="feedback-form"
-              className="grid gap-4 p-5 sm:grid-cols-2 sm:gap-5 sm:p-6"
+              className="grid gap-3 p-4 sm:grid-cols-2 sm:gap-4 sm:p-5"
               onSubmit={(event) => {
                 event.preventDefault();
                 setIsSubmitted(true);
               }}
             >
               <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-[0.2em] text-[#c6a55c]/85">Client Names</label>
+                <label className="text-[10px] uppercase tracking-[0.2em] text-[#c6a55c]/85">Name</label>
                 <input
                   type="text"
                   placeholder="Priya & Arjun"
@@ -122,13 +122,13 @@ export default function FeedbackModal({ isOpen, onClose }) {
               <div className="space-y-1 sm:col-span-2">
                 <label className="text-[10px] uppercase tracking-[0.2em] text-[#c6a55c]/85">Review Message</label>
                 <textarea
-                  rows={3}
+                  rows={2}
                   placeholder="Client feedback / review"
                   className="w-full resize-none rounded-lg border border-[#c6a55c]/20 bg-[#080808] px-3 py-2 text-xs text-foreground/85 outline-none transition-colors focus:border-[#c6a55c]/55"
                 />
               </div>
 
-              <div className="space-y-1 sm:col-span-2">
+              <div className="space-y-1">
                 <label className="text-[10px] uppercase tracking-[0.2em] text-[#c6a55c]/85">Rating *</label>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -144,17 +144,15 @@ export default function FeedbackModal({ isOpen, onClose }) {
                   ))}
                 </div>
               </div>
-            </form>
 
-            <div className="border-t border-[#c6a55c]/15 px-5 py-4 sm:px-6">
               <button
                 type="submit"
-                form="feedback-form"
-                className="w-full rounded-lg border border-[#c6a55c]/45 bg-[#c6a55c]/12 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#c6a55c] transition-colors hover:bg-[#c6a55c]/20"
+                className="mt-1 inline-flex w-full items-center justify-center gap-1.5 self-end rounded-xl bg-[#c6a55c] px-4 py-3 text-[11px] font-black uppercase tracking-[0.24em] text-[#0f0f0f] shadow-[0_10px_22px_rgba(198,165,92,0.24)] transition-all duration-300 hover:bg-[#d3b46f] hover:shadow-[0_12px_26px_rgba(198,165,92,0.3)] sm:mt-5"
               >
-                Send Feedback
+                <span>Send Feedback</span>
+                <Send className="h-3 w-3" />
               </button>
-            </div>
+            </form>
           </>
         )}
       </div>
