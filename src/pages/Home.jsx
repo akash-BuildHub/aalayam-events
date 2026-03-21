@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import SectionTransition from '@/components/SectionTransition';
 import {
   HomeSection,
   AboutSection,
@@ -15,13 +16,32 @@ export default function Home() {
     <div className="min-h-screen bg-[#0f0f0f]">
       <Navbar />
       <HomeSection />
-      <AboutSection />
+
+      <SectionTransition>
+        <AboutSection />
+      </SectionTransition>
+
       <GallerySection />
-      <PricingPackagesSection />
-      <ClientPerspectivesSection />
-      <SecureYourSessionSection />
-      <ConnectSection />
-      <FooterSection />
+
+      <SectionTransition>
+        <PricingPackagesSection />
+      </SectionTransition>
+
+      <SectionTransition>
+        <ClientPerspectivesSection />
+      </SectionTransition>
+
+      <SectionTransition>
+        <SecureYourSessionSection />
+      </SectionTransition>
+
+      <SectionTransition>
+        <ConnectSection />
+      </SectionTransition>
+
+      <SectionTransition amount={0.1}>
+        <FooterSection />
+      </SectionTransition>
     </div>
   );
 }

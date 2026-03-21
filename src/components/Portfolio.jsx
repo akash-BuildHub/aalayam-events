@@ -161,11 +161,13 @@ function GalleryCategory({ category }) {
         brandLayersBySlot.forEach((slotLayers) => {
           slotLayers.forEach((layer, idx) => {
             gsap.set(layer, {
-              rotationX: 0,
-              y: 0,
-              scale: 1,
-              opacity: idx === 0 ? 1 : 0.999,
+              rotationX: idx === 0 ? 0 : 86,
+              y: idx === 0 ? 0 : 18,
+              scale: idx === 0 ? 1 : 0.96,
+              opacity: idx === 0 ? 1 : 0,
               zIndex: 30 - idx,
+              transformPerspective: 1200,
+              transformOrigin: 'top center',
             });
           });
         });
@@ -178,8 +180,8 @@ function GalleryCategory({ category }) {
           scrollTrigger: {
             trigger: section,
             start: 'top top',
-            end: () => `+=${Math.max(860, transitionCount * 360)}`,
-            scrub: 1,
+            end: () => `+=${Math.max(1200, transitionCount * 520)}`,
+            scrub: 1.4,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
@@ -190,12 +192,12 @@ function GalleryCategory({ category }) {
         tl.to(brandSlots, {
           y: 0,
           opacity: 1,
-          duration: 0.55,
+          duration: 0.9,
           ease: 'power2.out',
           stagger: 0.08,
         }, 0);
 
-        const flipStart = 0.62;
+        const flipStart = 0.9;
 
         for (let t = 0; t < transitionCount; t += 1) {
           const imageIdx = t + visibleSlots;
@@ -203,8 +205,7 @@ function GalleryCategory({ category }) {
           const layerLevel = Math.floor(imageIdx / visibleSlots);
           const currentLayer = brandLayersBySlot[slot]?.[layerLevel - 1];
           const nextLayer = brandLayersBySlot[slot]?.[layerLevel];
-          const upcomingLayer = brandLayersBySlot[slot]?.[layerLevel + 1];
-          const at = flipStart + t * 0.62;
+          const at = flipStart + t * 0.95;
 
           if (currentLayer && nextLayer) {
             tl.to(currentLayer, {
@@ -212,7 +213,7 @@ function GalleryCategory({ category }) {
               y: -18,
               scale: 0.92,
               opacity: 0,
-              duration: 0.34,
+              duration: 0.55,
               ease: 'power2.inOut',
             }, at)
               .to(nextLayer, {
@@ -220,20 +221,9 @@ function GalleryCategory({ category }) {
                 y: 0,
                 scale: 1,
                 opacity: 1,
-                duration: 0.42,
+                duration: 0.65,
                 ease: 'power2.out',
-              }, at + 0.07);
-
-            if (upcomingLayer) {
-              tl.to(upcomingLayer, {
-                rotationX: 0,
-                y: 0,
-                scale: 1,
-                opacity: 1,
-                duration: 0.22,
-                ease: 'none',
-              }, at + 0.2);
-            }
+              }, at + 0.14);
           }
         }
 
@@ -303,12 +293,18 @@ function GalleryCategory({ category }) {
 
       const getDefaultScrollDist = () => track.scrollWidth - window.innerWidth + window.innerWidth * 0.32;
       const getPortraitScrollDist = () => {
+        const viewport = track?.parentElement;
+        if (!track || !viewport) return 0;
+
+        const maxDist = Math.max(0, track.scrollWidth - viewport.clientWidth);
         const lastCard = cards[cards.length - 1];
-        if (!lastCard) return 0;
+        if (!lastCard) return maxDist;
 
         const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth * 0.5;
+        const desiredDist = lastCardCenter - viewport.clientWidth * 0.5;
         // Stop exactly when the last card reaches viewport center.
-        return Math.max(0, lastCardCenter - window.innerWidth * 0.5);
+        if (!Number.isFinite(desiredDist)) return maxDist;
+        return Math.max(0, Math.min(maxDist, desiredDist));
       };
       const getScrollDist = () => (isPortrait ? getPortraitScrollDist() : getDefaultScrollDist());
 
@@ -365,7 +361,7 @@ function GalleryCategory({ category }) {
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          fastScrollEnd: isPortrait,
+          fastScrollEnd: false,
           onUpdate: (self) => {
             if (isPortrait) {
               updatePortraitCards();
@@ -379,13 +375,6 @@ function GalleryCategory({ category }) {
           onRefresh: () => {
             if (isPortrait) updatePortraitCards();
           },
-          onLeave: isPortrait ? (self) => {
-            // Snap track to final position (last card exactly at center)
-            gsap.set(track, { x: -getPortraitScrollDist() });
-            updatePortraitCards();
-            // Immediately jump past this section to the next one
-            window.scrollTo({ top: self.end + section.offsetHeight, behavior: 'instant' });
-          } : undefined,
         },
       });
 
