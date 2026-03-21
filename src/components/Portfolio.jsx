@@ -114,6 +114,7 @@ function GalleryCategory({ category }) {
   const isPortrait = category.id === 'Portrait';
   const isBrand = category.id === 'Brand';
   const isTravelStreet = category.id === 'TravelStreet';
+  const isWedding = category.id === 'Wedding';
   const travelImages = category.images.slice(0, 5);
   const [travelOrder, setTravelOrder] = useState(() =>
     isTravelStreet ? travelImages.map((_, i) => i) : []
@@ -140,7 +141,7 @@ function GalleryCategory({ category }) {
       const travelContent = travelContentRef.current;
 
       if (isBrand) {
-        const visibleSlots = Math.min(2, Math.max(1, category.images.length));
+        const visibleSlots = Math.min(3, Math.max(1, category.images.length));
 
         gsap.fromTo(
           title,
@@ -179,7 +180,7 @@ function GalleryCategory({ category }) {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top top',
+            start: 'top top+=72',
             end: () => `+=${Math.max(1200, transitionCount * 520)}`,
             scrub: 1.4,
             pin: true,
@@ -297,12 +298,19 @@ function GalleryCategory({ category }) {
         if (!track || !viewport) return 0;
 
         const maxDist = Math.max(0, track.scrollWidth - viewport.clientWidth);
+        const firstCard = cards[0];
         const lastCard = cards[cards.length - 1];
-        if (!lastCard) return maxDist;
+        if (!firstCard || !lastCard) return maxDist;
 
+        const viewportCenter = viewport.clientWidth * 0.5;
+        const firstCardCenter = firstCard.offsetLeft + firstCard.offsetWidth * 0.5;
         const lastCardCenter = lastCard.offsetLeft + lastCard.offsetWidth * 0.5;
-        const desiredDist = lastCardCenter - viewport.clientWidth * 0.5;
-        // Stop exactly when the last card reaches viewport center.
+
+        // Compute travel relative to where the first card starts so the end settles at true center.
+        const startOffset = firstCardCenter - viewportCenter;
+        const endOffset = lastCardCenter - viewportCenter;
+        const desiredDist = endOffset - startOffset;
+
         if (!Number.isFinite(desiredDist)) return maxDist;
         return Math.max(0, Math.min(maxDist, desiredDist));
       };
@@ -531,7 +539,7 @@ function GalleryCategory({ category }) {
   }
 
   if (isBrand) {
-    const visibleSlots = Math.min(2, Math.max(1, category.images.length));
+    const visibleSlots = Math.min(3, Math.max(1, category.images.length));
     const brandColumns = Array.from({ length: visibleSlots }, (_, slot) =>
       category.images.filter((_, imgIdx) => imgIdx % visibleSlots === slot)
     );
@@ -590,7 +598,7 @@ function GalleryCategory({ category }) {
   return (
     <div
       ref={sectionRef}
-      className={`gallery-category-section ${isPortrait ? 'portrait-mode' : ''}`}
+      className={`gallery-category-section ${isPortrait ? 'portrait-mode' : ''} ${isWedding ? 'wedding-mode' : ''}`}
       style={{
         '--glow-color': anim.glowColor,
         '--accent-color': anim.accentColor,

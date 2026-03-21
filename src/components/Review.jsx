@@ -36,7 +36,7 @@ gsap.registerPlugin(ScrollTrigger);
 const testimonials = [
   {
     name: 'Priya & Arjun',
-    event: 'Wedding Story, Mumbai',
+    event: 'Wedding Story, Banglore',
     rating: 5,
     text: 'Aalayam Events captured our special day with such elegance and artistry. Every photo tells our story beautifully. The team was professional, creative, and made us feel comfortable throughout the day.',
     image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=200&auto=format&fit=crop',
@@ -189,7 +189,7 @@ export default function Review() {
   };
 
   return (
-    <section className="allow-overflow-below py-10 px-6 bg-[#0a0a0a] overflow-visible">
+    <section className="allow-overflow-below review-warm-mode py-10 px-6 bg-[#0a0a0a] overflow-visible">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">

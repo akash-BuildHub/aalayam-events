@@ -15,7 +15,19 @@ export default function Hero() {
   const scrollIndRef = useRef(null);
 
   const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    const nav = document.querySelector('nav');
+    const navHeight = nav ? nav.getBoundingClientRect().height : 0;
+    const extraOffset = 12;
+    const elementTop = element.getBoundingClientRect().top + window.scrollY;
+    const offsetTop = Math.max(0, elementTop - navHeight - extraOffset);
+
+    window.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth',
+    });
   };
 
   useLayoutEffect(() => {
@@ -137,7 +149,7 @@ export default function Hero() {
           ref={eyebrowRef}
           className="text-[#c6a55c] text-xs md:text-sm uppercase tracking-[0.3em] mb-6 block"
         >
-          Premium Photography Services
+          Premium Photography Services - Since 1970
         </span>
 
         {/* Main title — split words animate from opposite sides */}

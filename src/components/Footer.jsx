@@ -1,7 +1,14 @@
-import { Instagram, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
+import { Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import FeedbackModal from '@/components/FeedbackModal';
+import LegalModal from '@/components/LegalModal';
+import { legalContent } from '@/constants/legalContent';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [activeLegal, setActiveLegal] = useState(null);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const selectedLegal = activeLegal ? legalContent[activeLegal] : null;
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -19,102 +26,126 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#050505] border-t border-[#c6a55c]/10 pt-10 pb-8 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-12 gap-16 mb-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-5">
-            <h3 className="text-3xl font-serif text-foreground mb-8 tracking-tight">Aalayam Events</h3>
-            <p className="text-foreground/40 leading-relaxed font-light mb-10 max-w-md">
-              A symphony of light and emotion. We don't just capture images; we preserve the soul of your most cherished celebrations through an artistic lens.
-            </p>
-            <div className="flex gap-4">
-              {[
-                { icon: Instagram, href: 'https://www.instagram.com/aalayam_studio', label: 'Instagram' },
-                { icon: WhatsAppIcon, href: 'https://wa.me/916369150731', label: 'WhatsApp' },
-              ].map((social, idx) => (
-                <a
-                  key={idx}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-[#0a0a0a] border border-[#c6a55c]/10 rounded-xl flex items-center justify-center text-[#c6a55c] hover:bg-[#c6a55c] hover:text-[#0f0f0f] transition-all duration-500 hover:scale-110"
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
+    <>
+      <footer className="bg-[#050505] border-t border-[#c6a55c]/10 pt-10 pb-8 overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-16 mb-12">
+            <div className="lg:col-span-5">
+              <h3 className="text-3xl font-serif text-foreground mb-8 tracking-tight">Aalayam Events</h3>
+              <p className="text-foreground/40 leading-relaxed font-light mb-10 max-w-md">
+                A symphony of light and emotion. We don't just capture images; we preserve the soul of your most cherished celebrations through an artistic lens.
+              </p>
+              <div className="flex gap-4">
+                {[
+                  { icon: Instagram, href: 'https://www.instagram.com/aalayam_studio', label: 'Instagram' },
+                  { icon: WhatsAppIcon, href: 'https://wa.me/916369150731', label: 'WhatsApp' },
+                ].map((social, idx) => (
+                  <a
+                    key={idx}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 bg-[#0a0a0a] border border-[#c6a55c]/10 rounded-xl flex items-center justify-center text-[#c6a55c] hover:bg-[#c6a55c] hover:text-[#0f0f0f] transition-all duration-500 hover:scale-110"
+                  >
+                    <social.icon className="w-5 h-5" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="lg:col-span-3">
+              <h4 className="text-[10px] uppercase tracking-[0.4em] text-[#c6a55c] font-black mb-8">Navigation</h4>
+              <ul className="space-y-4">
+                {['About', 'Portfolio', 'Pricing', 'Booking'].map((item) => (
+                  <li key={item}>
+                    <button
+                      onClick={() => scrollToSection(item.toLowerCase())}
+                      className="group flex items-center gap-2 text-foreground/50 hover:text-foreground transition-all duration-300 font-light"
+                    >
+                      <span className="w-6 h-[1px] bg-[#c6a55c]/30 group-hover:w-10 group-hover:bg-[#c6a55c] transition-all duration-500" />
+                      {item === 'Booking' ? 'Book a Session' : item}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="lg:col-span-4">
+              <h4 className="text-[10px] uppercase tracking-[0.4em] text-[#c6a55c] font-black mb-8">Contact</h4>
+              <ul className="space-y-6">
+                {[
+                  { icon: Mail, value: 'aalayamstudio818@gmail.com', href: 'mailto:aalayamstudio818@gmail.com' },
+                  { icon: Phone, value: '+91 63691 50731', href: 'tel:+916369150731' },
+                  { icon: MapPin, value: 'All over India', href: null },
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-4 group">
+                    <div className="w-10 h-10 bg-[#0a0a0a] border border-[#c6a55c]/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:border-[#c6a55c]/30 transition-colors">
+                      <item.icon className="w-4 h-4 text-[#c6a55c]" />
+                    </div>
+                    <div className="pt-1">
+                      {item.href ? (
+                        <a href={item.href} className="text-foreground/50 hover:text-foreground transition-colors font-light text-xs">
+                          {item.value}
+                        </a>
+                      ) : (
+                        <span className="text-foreground/50 font-light text-xs">{item.value}</span>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="lg:col-span-3">
-            <h4 className="text-[10px] uppercase tracking-[0.4em] text-[#c6a55c] font-black mb-8">Navigation</h4>
-            <ul className="space-y-4">
-              {['About', 'Portfolio', 'Pricing', 'Booking'].map((item) => (
-                <li key={item}>
-                  <button
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="group flex items-center gap-2 text-foreground/50 hover:text-foreground transition-all duration-300 font-light"
-                  >
-                    <span className="w-6 h-[1px] bg-[#c6a55c]/30 group-hover:w-10 group-hover:bg-[#c6a55c] transition-all duration-500" />
-                    {item === 'Booking' ? 'Book a Session' : item}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#c6a55c]/10 to-transparent mb-12" />
 
-          {/* Contact Info */}
-          <div className="lg:col-span-4">
-            <h4 className="text-[10px] uppercase tracking-[0.4em] text-[#c6a55c] font-black mb-8">Contact</h4>
-            <ul className="space-y-6">
-              {[
-                { icon: Mail, value: 'aalayamstudio818@gmail.com', href: 'mailto:aalayamstudio818@gmail.com' },
-                { icon: Phone, value: '+91 63691 50731', href: 'tel:+916369150731' },
-                { icon: MapPin, value: 'All over India', href: null },
-              ].map((item, idx) => (
-                <li key={idx} className="flex items-start gap-4 group">
-                  <div className="w-10 h-10 bg-[#0a0a0a] border border-[#c6a55c]/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:border-[#c6a55c]/30 transition-colors">
-                    <item.icon className="w-4 h-4 text-[#c6a55c]" />
-                  </div>
-                  <div className="pt-1">
-                    {item.href ? (
-                      <a href={item.href} className="text-foreground/50 hover:text-foreground transition-colors font-light text-xs">
-                        {item.value}
-                      </a>
-                    ) : (
-                      <span className="text-foreground/50 font-light text-xs">{item.value}</span>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Decorative divider */}
-        <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#c6a55c]/10 to-transparent mb-12" />
-
-        {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-2 text-foreground/30 text-[10px] uppercase tracking-widest font-bold">
-            <span>© {currentYear} Aalayam Studio</span>
-            <span className="w-1 h-1 bg-[#c6a55c] rounded-full" />
-            <span>Master Crafted</span>
-          </div>
-          <div className="flex gap-8">
-            {['Privacy Policy', 'Terms of Service'].map((link) => (
-              <button key={link} className="text-foreground/30 hover:text-[#c6a55c] transition-colors text-[10px] uppercase tracking-widest font-bold">
-                {link}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex items-center gap-2 text-foreground/30 text-[10px] uppercase tracking-widest font-bold">
+              <span><span className="text-[#c6a55c]">(c)</span> {currentYear} Aalayam Studio</span>
+              <span className="w-1 h-1 bg-[#c6a55c] rounded-full" />
+              <span>Since 1970</span>
+            </div>
+            <div className="flex gap-8">
+              <button
+                type="button"
+                onClick={() => setActiveLegal('privacy')}
+                className="text-foreground/30 hover:text-[#c6a55c] transition-colors text-[10px] uppercase tracking-widest font-bold"
+              >
+                Privacy Policy
               </button>
-            ))}
+              <button
+                type="button"
+                onClick={() => setActiveLegal('terms')}
+                className="text-foreground/30 hover:text-[#c6a55c] transition-colors text-[10px] uppercase tracking-widest font-bold"
+              >
+                Terms of Service
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsFeedbackOpen(true)}
+                className="text-foreground/30 hover:text-[#c6a55c] transition-colors text-[10px] uppercase tracking-widest font-bold"
+              >
+                Feedback
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Background flare */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#c6a55c]/5 blur-[120px] rounded-full translate-y-1/2 translate-x-1/2 -z-10" />
-    </footer>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#c6a55c]/5 blur-[120px] rounded-full translate-y-1/2 translate-x-1/2 -z-10" />
+      </footer>
+
+      <LegalModal
+        isOpen={Boolean(selectedLegal)}
+        title={selectedLegal?.title || ''}
+        sections={selectedLegal?.sections || []}
+        onClose={() => setActiveLegal(null)}
+      />
+
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        onClose={() => setIsFeedbackOpen(false)}
+      />
+    </>
   );
 }
 

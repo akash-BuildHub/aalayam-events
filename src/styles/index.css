@@ -233,6 +233,27 @@
 .gallery-category-section.portrait-mode {
   align-items: center;
   perspective: 1200px;
+  background:
+    radial-gradient(96% 72% at 18% 72%, rgba(170, 118, 60, 0.22) 0%, rgba(170, 118, 60, 0.08) 44%, rgba(0, 0, 0, 0) 74%),
+    radial-gradient(84% 60% at 82% 24%, rgba(112, 76, 40, 0.16) 0%, rgba(112, 76, 40, 0.06) 40%, rgba(0, 0, 0, 0) 72%),
+    linear-gradient(180deg, #0f0b07 0%, #090705 100%);
+}
+
+.gallery-category-section.portrait-mode .gallery-bg-glow {
+  background: radial-gradient(ellipse 62% 66% at 24% 56%, rgba(170, 118, 60, 0.2), rgba(10, 8, 6, 0) 72%);
+  filter: blur(68px);
+}
+
+.gallery-category-section.wedding-mode {
+  background:
+    radial-gradient(96% 72% at 18% 72%, rgba(170, 118, 60, 0.22) 0%, rgba(170, 118, 60, 0.08) 44%, rgba(0, 0, 0, 0) 74%),
+    radial-gradient(84% 60% at 82% 24%, rgba(112, 76, 40, 0.16) 0%, rgba(112, 76, 40, 0.06) 40%, rgba(0, 0, 0, 0) 72%),
+    linear-gradient(180deg, #0f0b07 0%, #090705 100%);
+}
+
+.gallery-category-section.wedding-mode .gallery-bg-glow {
+  background: radial-gradient(ellipse 62% 66% at 24% 56%, rgba(170, 118, 60, 0.2), rgba(10, 8, 6, 0) 72%);
+  filter: blur(68px);
 }
 
 .gallery-title-block.portrait-title-top {
@@ -245,7 +266,7 @@
   width: min(92vw, 760px);
   padding: 10px 18px 14px;
   border-radius: 18px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.25));
+  background: linear-gradient(to bottom, rgba(24, 15, 10, 0.84), rgba(36, 22, 14, 0.34));
   backdrop-filter: blur(4px);
 }
 
@@ -295,7 +316,17 @@
 /* Brand custom flip layout */
 .gallery-category-section.brand-flip-section {
   min-height: 100vh;
-  padding: clamp(70px, 10vh, 115px) clamp(24px, 5vw, 80px);
+  padding: clamp(72px, 9vh, 112px) clamp(24px, 5vw, 80px) clamp(120px, 16vh, 190px);
+  align-items: center;
+  background:
+    radial-gradient(120% 90% at 18% 78%, rgba(106, 72, 32, 0.26) 0%, rgba(106, 72, 32, 0.08) 42%, rgba(15, 11, 8, 0) 72%),
+    radial-gradient(95% 75% at 78% 30%, rgba(64, 43, 21, 0.2) 0%, rgba(64, 43, 21, 0.06) 40%, rgba(10, 8, 6, 0) 70%),
+    linear-gradient(180deg, #100d09 0%, #090806 100%);
+}
+
+.gallery-category-section.brand-flip-section .gallery-bg-glow {
+  background: radial-gradient(ellipse 64% 68% at 24% 56%, rgba(166, 110, 48, 0.18), rgba(12, 9, 6, 0) 70%);
+  filter: blur(72px);
 }
 
 .brand-flip-layout {
@@ -305,13 +336,13 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: max-content max-content;
-  align-items: start;
+  align-items: center;
   gap: clamp(8px, 1.2vw, 16px);
   justify-content: center;
 }
 
 .brand-flip-title-wrap {
-  align-self: start;
+  align-self: center;
   justify-self: end;
   position: relative;
   left: 128px;
@@ -340,7 +371,7 @@
   white-space: normal;
   line-height: 0.9;
   letter-spacing: 0.03em;
-  font-size: clamp(2.3rem, 4vw, 4rem);
+  font-size: clamp(1.8rem, 3.2vw, 3rem);
   text-align: center;
   font-style: normal;
 }
@@ -352,8 +383,8 @@
 
 .brand-flip-cards {
   display: grid;
-  grid-template-columns: repeat(2, minmax(380px, 490px));
-  gap: clamp(22px, 2.6vw, 38px);
+  grid-template-columns: repeat(3, minmax(250px, 320px));
+  gap: clamp(14px, 2vw, 24px);
   perspective: 1300px;
   align-items: start;
   width: auto;
@@ -363,7 +394,7 @@
 .brand-flip-slot {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: clamp(320px, 38vw, 430px);
   transform-style: preserve-3d;
   overflow: visible;
 }
@@ -391,6 +422,15 @@
 .gallery-category-section.travel-street-section {
   min-height: 100vh;
   padding: clamp(70px, 10vh, 120px) clamp(26px, 5vw, 80px);
+  background:
+    radial-gradient(96% 72% at 18% 72%, rgba(168, 118, 62, 0.24) 0%, rgba(168, 118, 62, 0.09) 44%, rgba(0, 0, 0, 0) 74%),
+    radial-gradient(86% 60% at 82% 24%, rgba(112, 76, 40, 0.18) 0%, rgba(112, 76, 40, 0.07) 40%, rgba(0, 0, 0, 0) 72%),
+    linear-gradient(180deg, #0f0b07 0%, #090705 100%);
+}
+
+.gallery-category-section.travel-street-section .gallery-bg-glow {
+  background: radial-gradient(ellipse 62% 66% at 24% 56%, rgba(170, 118, 60, 0.22), rgba(10, 8, 6, 0) 72%);
+  filter: blur(68px);
 }
 
 .travel-street-layout {
@@ -520,6 +560,24 @@
   font-family: "Inter", sans-serif;
 }
 
+.review-warm-mode {
+  background:
+    linear-gradient(180deg, #17110d 0%, #0d0907 100%);
+}
+
+/* Unified full-area warm background across all content sections */
+#about,
+#portfolio,
+#pricing,
+#booking,
+#contact,
+.review-warm-mode,
+.gallery-root,
+.gallery-category-section,
+footer {
+  background: linear-gradient(180deg, #17110d 0%, #0d0907 100%) !important;
+}
+
 /* Mobile fallback — disable horizontal scroll pin */
 @media (max-width: 768px) {
   .gallery-category-section {
@@ -593,7 +651,7 @@
 
   .gallery-category-section.brand-flip-section {
     min-height: auto;
-    padding: 60px 20px 40px;
+    padding: 72px 20px 56px;
   }
 
   .brand-flip-layout {
@@ -624,7 +682,7 @@
   }
 
   .brand-flip-cards {
-    grid-template-columns: repeat(2, minmax(110px, 1fr));
+    grid-template-columns: repeat(3, minmax(90px, 1fr));
     gap: 10px;
     width: 100%;
   }
