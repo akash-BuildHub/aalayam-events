@@ -574,6 +574,10 @@ function GalleryCategory({ category }) {
                   brandSlotRefs.current[slotIdx] = el;
                 }}
                 className="brand-flip-slot"
+                style={{
+                  '--hang-offset': `${[10, 0, 8][slotIdx] ?? 0}px`,
+                  '--pin-shift': `${[-10, 0, 10][slotIdx] ?? 0}px`,
+                }}
               >
                 {slotImages.map((src, layerIdx) => (
                   <div

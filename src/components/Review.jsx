@@ -107,59 +107,72 @@ function StarRating({ count, triggerKey }) {
   useLayoutEffect(() => {
     if (!triggerKey) return;
 
-    const stars = starRefs.current.filter(Boolean);
-    const fills = fillRefs.current.filter(Boolean);
-    if (!stars.length || !fills.length) return;
+    const stars = starRefs.current.slice(0, count);
+    const fills = fillRefs.current.slice(0, count);
+    if (!stars.length || !fills.length || stars.some((el) => !el) || fills.some((el) => !el)) return;
 
-    // Initial state: outlined stars, no fill
-    gsap.set(stars, { opacity: 0.35, scale: 0.7, filter: 'none' });
-    gsap.set(fills, { opacity: 0 });
+    // Initial state: faint outline, hidden fill.
+    gsap.set(stars, { opacity: 0.35, scale: 0.84, filter: 'none' });
+    gsap.set(fills, {
+      opacity: 1,
+      scaleX: 0,
+      transformOrigin: '0% 50%',
+    });
 
     const tl = gsap.timeline({
       paused: true,
       defaults: { ease: 'power2.out' },
     });
 
-    tl.to({}, { duration: 0.05 });
-
     stars.forEach((star, i) => {
       const isLast = i === stars.length - 1;
+      const fillDuration = isLast ? 0.24 : 0.08;
+      const popDuration = isLast ? 0.16 : 0.08;
+
+      tl.to(star, {
+        opacity: 1,
+        scale: isLast ? 1.2 : 1.12,
+        duration: popDuration,
+        filter: isLast
+          ? 'drop-shadow(0 0 10px #c6a55c) drop-shadow(0 0 18px #ffde8a)'
+          : 'drop-shadow(0 0 5px #c6a55c)',
+      })
+        .to(
+          fills[i],
+          {
+            scaleX: 1,
+            duration: fillDuration,
+            ease: 'power1.inOut',
+          },
+          '<'
+        );
 
       if (isLast) {
-        // 5th star: slightly slower, more dramatic finish
-        tl.to(star, {
-          opacity: 1,
-          scale: 1.3,
-          duration: 0.09,
-          filter: 'drop-shadow(0 0 6px #c6a55c)',
-        })
-          .to(fills[i], { opacity: 1, duration: 0.18, ease: 'power2.out' }, '<')
-          .to(star, {
-            scale: 1.08,
-            duration: 0.18,
-            ease: 'elastic.out(1.2, 0.5)',
-            filter: 'drop-shadow(0 0 10px #c6a55c) drop-shadow(0 0 20px #ffde8a)',
-          })
-          .to(star, {
-            scale: 1,
-            duration: 0.1,
+        tl.to(
+          [star, fills[i]],
+          {
+            opacity: 0.28,
+            duration: 0.2,
+            ease: 'sine.inOut',
+          },
+          '<+=0.04'
+        ).to(
+          [star, fills[i]],
+          {
+            opacity: 1,
+            duration: 0.24,
             ease: 'sine.out',
-            filter: 'drop-shadow(0 0 3px #c6a55c)',
-          });
-      } else {
-        // Stars 1-4: faster sequential fill
-        tl.to(star, {
-          opacity: 1,
-          scale: 1.16,
-          duration: 0.06,
-        })
-          .to(fills[i], { opacity: 1, duration: 0.06, ease: 'power1.out' }, '<')
-          .to(star, {
-            scale: 1,
-            duration: 0.06,
-            ease: 'back.out(2)',
-          });
+          },
+          '>'
+        );
       }
+
+      tl.to(star, {
+          scale: 1,
+          duration: isLast ? 0.22 : 0.07,
+          ease: isLast ? 'elastic.out(1, 0.5)' : 'back.out(1.9)',
+          filter: 'drop-shadow(0 0 3px #c6a55c)',
+        });
     });
 
     tl.restart();

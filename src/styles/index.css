@@ -408,6 +408,7 @@
 }
 
 .brand-flip-cards {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(250px, 320px));
   gap: clamp(14px, 2vw, 24px);
@@ -415,6 +416,20 @@
   align-items: start;
   width: auto;
   justify-content: center;
+  padding-top: 44px;
+}
+
+.brand-flip-cards::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(248, 242, 228, 0.86) 0%, rgba(231, 217, 191, 0.9) 52%, rgba(248, 242, 228, 0.86) 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  z-index: 2;
 }
 
 .brand-flip-slot {
@@ -423,15 +438,48 @@
   height: clamp(320px, 38vw, 430px);
   transform-style: preserve-3d;
   overflow: visible;
+  margin-top: var(--hang-offset, 0px);
+}
+
+.brand-flip-slot::before {
+  content: '';
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  width: 2px;
+  height: 24px;
+  transform: translateX(calc(-50% + var(--pin-shift, 0px)));
+  background: linear-gradient(180deg, rgba(245, 237, 221, 0.95) 0%, rgba(197, 176, 138, 0.7) 100%);
+  z-index: 4;
+}
+
+.brand-flip-slot::after {
+  content: '';
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  width: 18px;
+  height: 14px;
+  transform: translateX(calc(-50% + var(--pin-shift, 0px)));
+  border-radius: 4px;
+  background: linear-gradient(180deg, #f0cf7d 0%, #b98a2f 100%);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  z-index: 5;
 }
 
 .brand-flip-card-layer {
   position: absolute;
   inset: 0;
-  border-radius: 18px;
+  border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(240, 230, 206, 0.5);
+  background: linear-gradient(180deg, #f9f6ee 0%, #eee5d4 100%);
+  padding: 10px 10px 26px;
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.4),
+    0 3px 8px rgba(0, 0, 0, 0.28);
   backface-visibility: hidden;
   transform-origin: top center;
   will-change: transform, opacity;
@@ -442,6 +490,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 7px;
+}
+
+.brand-flip-card-layer .gallery-card-overlay {
+  inset: 10px 10px 26px;
+  border-radius: 7px;
 }
 
 /* Travel + Street custom split layout */
@@ -711,9 +765,21 @@ footer {
     grid-template-columns: repeat(3, minmax(90px, 1fr));
     gap: 10px;
     width: 100%;
+    padding-top: 30px;
   }
 
   .brand-flip-slot {
     aspect-ratio: 1 / 1;
+  }
+
+  .brand-flip-slot::before {
+    top: -20px;
+    height: 16px;
+  }
+
+  .brand-flip-slot::after {
+    top: -27px;
+    width: 14px;
+    height: 10px;
   }
 }
