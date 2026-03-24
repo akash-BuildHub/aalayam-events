@@ -316,7 +316,7 @@
 /* Brand custom flip layout */
 .gallery-category-section.brand-flip-section {
   min-height: 100vh;
-  padding: clamp(72px, 9vh, 112px) clamp(24px, 5vw, 80px) clamp(120px, 16vh, 190px);
+  padding: clamp(100px, 12vh, 140px) clamp(24px, 5vw, 80px) clamp(100px, 12vh, 140px);
   align-items: center;
   background:
     radial-gradient(120% 90% at 18% 78%, rgba(106, 72, 32, 0.26) 0%, rgba(106, 72, 32, 0.08) 42%, rgba(15, 11, 8, 0) 72%),
@@ -332,22 +332,22 @@
 .brand-flip-layout {
   position: relative;
   z-index: 10;
-  width: min(1220px, 100%);
+  width: min(1360px, 100%);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: max-content minmax(280px, 30vw);
   align-items: center;
-  gap: clamp(8px, 1.2vw, 16px);
+  gap: clamp(14px, 1.8vw, 28px);
   justify-content: center;
 }
 
 .brand-flip-title-wrap {
-  align-self: start;
-  justify-self: end;
+  align-self: center;
+  justify-self: stretch;
   position: relative;
-  left: 102px;
-  padding-top: 14px;
-  min-width: clamp(130px, 12vw, 180px);
+  left: 0;
+  padding-top: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -407,6 +407,78 @@
   display: inline;
 }
 
+.branding-word-wrap {
+  left: -16px;
+  min-width: clamp(280px, 28vw, 440px);
+  justify-self: start;
+}
+
+.branding-word-board {
+  width: 100%;
+  text-align: left;
+  background: rgba(3, 3, 3, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: clamp(16px, 2vw, 22px) clamp(14px, 1.8vw, 20px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(1px);
+}
+
+.branding-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(22px, 1fr));
+  column-gap: clamp(5px, 0.7vw, 10px);
+  align-items: center;
+  text-align: center;
+}
+
+.branding-top-labels,
+.branding-bottom-labels {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.56rem, 0.7vw, 0.8rem);
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.86);
+  text-transform: uppercase;
+  min-height: 1.25em;
+}
+
+.branding-top-labels {
+  margin-bottom: 4px;
+}
+
+.branding-bottom-labels {
+  margin-top: 4px;
+}
+
+.branding-top-arrows,
+.branding-bottom-arrows {
+  min-height: 24px;
+}
+
+.branding-arrow {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.branding-main-word {
+  margin: 4px 0 2px;
+}
+
+.branding-letter {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(2.25rem, 4.2vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.branding-letter-highlight {
+  color: #e6bf51;
+}
+
 .brand-flip-cards {
   position: relative;
   display: grid;
@@ -419,8 +491,7 @@
   padding-top: 44px;
 }
 
-.brand-flip-cards::before {
-  content: '';
+.brand-flip-hanger-line {
   position: absolute;
   top: 9px;
   left: 12px;
@@ -430,6 +501,8 @@
   background: linear-gradient(90deg, rgba(248, 242, 228, 0.86) 0%, rgba(231, 217, 191, 0.9) 52%, rgba(248, 242, 228, 0.86) 100%);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
   z-index: 2;
+  transform-origin: left center;
+  will-change: transform, opacity;
 }
 
 .brand-flip-slot {
@@ -438,7 +511,19 @@
   height: clamp(320px, 38vw, 430px);
   transform-style: preserve-3d;
   overflow: visible;
-  margin-top: var(--hang-offset, 0px);
+  margin-top: 0;
+}
+
+@media (max-width: 1280px) {
+  .brand-flip-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 34vw);
+    gap: clamp(14px, 1.8vw, 26px);
+  }
+
+  .brand-flip-cards {
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: clamp(10px, 1.3vw, 16px);
+  }
 }
 
 .brand-flip-slot::before {
@@ -448,7 +533,7 @@
   left: 50%;
   width: 2px;
   height: 24px;
-  transform: translateX(calc(-50% + var(--pin-shift, 0px)));
+  transform: translateX(-50%);
   background: linear-gradient(180deg, rgba(245, 237, 221, 0.95) 0%, rgba(197, 176, 138, 0.7) 100%);
   z-index: 4;
 }
@@ -460,7 +545,7 @@
   left: 50%;
   width: 18px;
   height: 14px;
-  transform: translateX(calc(-50% + var(--pin-shift, 0px)));
+  transform: translateX(-50%);
   border-radius: 4px;
   background: linear-gradient(180deg, #f0cf7d 0%, #b98a2f 100%);
   box-shadow:
@@ -770,6 +855,33 @@ footer {
 
   .brand-flip-slot {
     aspect-ratio: 1 / 1;
+  }
+
+  .branding-word-wrap {
+    min-width: 100%;
+  }
+
+  .branding-word-board {
+    padding: 14px 10px;
+  }
+
+  .branding-grid {
+    grid-template-columns: repeat(8, minmax(18px, 1fr));
+    column-gap: 4px;
+  }
+
+  .branding-top-labels,
+  .branding-bottom-labels {
+    font-size: clamp(0.44rem, 1.8vw, 0.62rem);
+    letter-spacing: 0.06em;
+  }
+
+  .branding-arrow {
+    font-size: clamp(0.8rem, 2.8vw, 1.2rem);
+  }
+
+  .branding-letter {
+    font-size: clamp(1.35rem, 7.2vw, 2.1rem);
   }
 
   .brand-flip-slot::before {

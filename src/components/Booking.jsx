@@ -75,7 +75,7 @@ export default function Booking() {
   };
 
   return (
-    <section id="booking" className="min-h-screen flex items-start px-6 pt-8 md:pt-10 bg-[#0f0f0f]">
+    <section id="booking" className="group/booking min-h-screen flex items-start px-6 pt-8 md:pt-10 bg-[#0f0f0f]">
       <div className="section-shell max-w-6xl mx-auto">
         <div className="text-center mb-6">
           <motion.h2
@@ -102,8 +102,9 @@ export default function Booking() {
           whileInView="visible"
           viewport={{ once: false }}
           onSubmit={handleSubmit}
-          className="space-y-6 bg-[#0a0a0a] p-6 md:p-8 rounded-3xl border border-[#c6a55c]/10 relative shadow-2xl min-h-[68vh] lg:min-h-[72vh]"
+          className="space-y-6 bg-[#0a0a0a] p-6 md:p-8 rounded-3xl border-2 border-[#d8bc78]/16 group-hover/booking:border-[#e7cd8a]/38 focus-within:border-[#e7cd8a]/45 relative shadow-2xl shadow-[#d8bc78]/6 transition-colors duration-400 min-h-[68vh] lg:min-h-[72vh]"
         >
+          <div className="pointer-events-none absolute inset-0 rounded-3xl border border-[#e7cd8a]/0 group-hover/booking:border-[#e7cd8a]/30 focus-within:border-[#e7cd8a]/36 transition-colors duration-400" />
           <div className="absolute -top-10 -left-10 w-40 h-40 bg-[#c6a55c]/5 blur-3xl rounded-full" />
 
           <div className="grid md:grid-cols-2 gap-5 relative z-10">

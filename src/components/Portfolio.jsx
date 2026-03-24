@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -107,6 +108,7 @@ function GalleryCategory({ category }) {
   const cardRefs = useRef([]);
   const brandSlotRefs = useRef([]);
   const brandLayerRefs = useRef([]);
+  const brandLineRef = useRef(null);
   const travelImageRef = useRef(null);
   const travelContentRef = useRef(null);
   const travelStackRefs = useRef([]);
@@ -137,34 +139,19 @@ function GalleryCategory({ category }) {
       const cards = cardRefs.current.filter(Boolean);
       const brandSlots = brandSlotRefs.current.filter(Boolean);
       const brandLayersBySlot = brandLayerRefs.current.map((slotLayers = []) => slotLayers.filter(Boolean));
+      const brandLine = brandLineRef.current;
       const travelImage = travelImageRef.current;
       const travelContent = travelContentRef.current;
 
       if (isBrand) {
         const visibleSlots = Math.min(3, Math.max(1, category.images.length));
 
-        gsap.fromTo(
-          title,
-          { x: -80, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top 78%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
-
         brandLayersBySlot.forEach((slotLayers) => {
           slotLayers.forEach((layer, idx) => {
             gsap.set(layer, {
               rotationX: idx === 0 ? 0 : 86,
-              y: idx === 0 ? 0 : 18,
-              scale: idx === 0 ? 1 : 0.96,
+              y: 0,
+              scale: 1,
               opacity: idx === 0 ? 1 : 0,
               zIndex: 30 - idx,
               transformPerspective: 1200,
@@ -173,32 +160,22 @@ function GalleryCategory({ category }) {
           });
         });
 
-        // Initial placement below final position; first scroll brings cards up into place.
-        gsap.set(brandSlots, { y: 64, opacity: 0.88 });
-
         const transitionCount = Math.max(0, category.images.length - visibleSlots);
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: 'top top+=72',
-            end: () => `+=${Math.max(1200, transitionCount * 520)}`,
-            scrub: 1.4,
+            start: 'top top',
+            end: () => `+=${Math.max(1700, transitionCount * 760)}`,
+            scrub: 0.75,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         });
 
-        // Phase 1: cards move up and settle into exact position.
-        tl.to(brandSlots, {
-          y: 0,
-          opacity: 1,
-          duration: 0.9,
-          ease: 'power2.out',
-          stagger: 0.08,
-        }, 0);
-
-        const flipStart = 0.9;
+        // Phase 1 is handled by framer-motion reveal in JSX.
+        // Phase 2: slower sequential flips on continued scrolling.
+        const flipStart = 0.7;
 
         for (let t = 0; t < transitionCount; t += 1) {
           const imageIdx = t + visibleSlots;
@@ -206,15 +183,15 @@ function GalleryCategory({ category }) {
           const layerLevel = Math.floor(imageIdx / visibleSlots);
           const currentLayer = brandLayersBySlot[slot]?.[layerLevel - 1];
           const nextLayer = brandLayersBySlot[slot]?.[layerLevel];
-          const at = flipStart + t * 0.95;
+          const at = flipStart + t * 0.86;
 
           if (currentLayer && nextLayer) {
             tl.to(currentLayer, {
               rotationX: -92,
-              y: -18,
-              scale: 0.92,
+              y: 0,
+              scale: 1,
               opacity: 0,
-              duration: 0.55,
+              duration: 0.95,
               ease: 'power2.inOut',
             }, at)
               .to(nextLayer, {
@@ -222,23 +199,11 @@ function GalleryCategory({ category }) {
                 y: 0,
                 scale: 1,
                 opacity: 1,
-                duration: 0.65,
+                duration: 1.08,
                 ease: 'power2.out',
-              }, at + 0.14);
+              }, at + 0.28);
           }
         }
-
-        gsap.to(brandSlots, {
-          y: -10,
-          ease: 'none',
-          stagger: 0.06,
-          scrollTrigger: {
-            trigger: section,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
 
         return;
       }
@@ -544,15 +509,27 @@ function GalleryCategory({ category }) {
       category.images.filter((_, imgIdx) => imgIdx % visibleSlots === slot)
     );
     const brandingAcronym = [
-      'Building Identity',
-      'Representing Vision',
-      'Authentic Expression',
-      'Narrating Your Journey',
-      'Defining Presence',
-      'Inspiring Trust',
-      'Nurturing Connections',
-      'Growing Authentically',
+      'B',
+      'R',
+      'A',
+      'N',
+      'D',
+      'I',
+      'N',
+      'G',
     ];
+    const brandingTopLabels = {
+      0: 'BUILD',
+      2: 'ATTENTION',
+      4: 'DESIRE',
+      6: 'NOTABLE',
+    };
+    const brandingBottomLabels = {
+      1: 'RELATABLE',
+      3: 'NICHE',
+      5: 'INTERESTING',
+      7: 'GROWTH',
+    };
 
     return (
       <section
@@ -566,18 +543,25 @@ function GalleryCategory({ category }) {
         <div className="gallery-bg-glow" />
 
         <div className="brand-flip-layout">
-          <div className="brand-flip-cards">
+          <motion.div
+            initial={{ opacity: 0, y: 28, filter: 'blur(5px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            className="brand-flip-cards"
+          >
+            <div ref={brandLineRef} className="brand-flip-hanger-line" aria-hidden="true" />
             {brandColumns.map((slotImages, slotIdx) => (
-              <div
+              <motion.div
                 key={slotIdx}
                 ref={(el) => {
                   brandSlotRefs.current[slotIdx] = el;
                 }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.75, delay: 0.08 + slotIdx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="brand-flip-slot"
-                style={{
-                  '--hang-offset': `${[10, 0, 8][slotIdx] ?? 0}px`,
-                  '--pin-shift': `${[-10, 0, 10][slotIdx] ?? 0}px`,
-                }}
               >
                 {slotImages.map((src, layerIdx) => (
                   <div
@@ -592,22 +576,63 @@ function GalleryCategory({ category }) {
                     <div className="gallery-card-overlay" />
                   </div>
                 ))}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div ref={titleRef} className="brand-flip-title-wrap">
-            <h2 className="gallery-title-text brand-stacked-title" aria-label="Branding Acronym">
-              {brandingAcronym.map((phrase) => (
-                <span key={phrase} className="brand-acronym-line">
-                  <span className="brand-acronym-first">{phrase.charAt(0)}</span>
-                  {' '}
-                  <span className="brand-acronym-rest">{phrase.slice(1)}</span>
-                </span>
-              ))}
-            </h2>
-            <div className="gallery-title-line" style={{ background: anim.accentColor }} />
-          </div>
+          <motion.div
+            ref={titleRef}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="brand-flip-title-wrap branding-word-wrap"
+          >
+            <div className="branding-word-board" aria-label="Branding concept">
+              <div className="branding-grid branding-top-labels">
+                {brandingAcronym.map((letter, idx) => (
+                  <span key={`top-${letter}-${idx}`} className="branding-hint">
+                    {brandingTopLabels[idx] || ''}
+                  </span>
+                ))}
+              </div>
+
+              <div className="branding-grid branding-top-arrows" aria-hidden="true">
+                {brandingAcronym.map((letter, idx) => (
+                  <span key={`ta-${letter}-${idx}`} className="branding-arrow">
+                    {brandingTopLabels[idx] ? '\u2191' : ''}
+                  </span>
+                ))}
+              </div>
+
+              <h2 className="branding-grid branding-main-word">
+                {brandingAcronym.map((letter, idx) => (
+                  <span
+                    key={`main-${letter}-${idx}`}
+                    className={`branding-letter ${idx % 2 === 0 ? 'branding-letter-highlight' : ''}`}
+                  >
+                    {letter}
+                  </span>
+                ))}
+              </h2>
+
+              <div className="branding-grid branding-bottom-arrows" aria-hidden="true">
+                {brandingAcronym.map((letter, idx) => (
+                  <span key={`ba-${letter}-${idx}`} className="branding-arrow">
+                    {brandingBottomLabels[idx] ? '\u2193' : ''}
+                  </span>
+                ))}
+              </div>
+
+              <div className="branding-grid branding-bottom-labels">
+                {brandingAcronym.map((letter, idx) => (
+                  <span key={`bottom-${letter}-${idx}`} className="branding-hint">
+                    {brandingBottomLabels[idx] || ''}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
     );
@@ -701,3 +726,4 @@ export default function Portfolio() {
     </section>
   );
 }
+
