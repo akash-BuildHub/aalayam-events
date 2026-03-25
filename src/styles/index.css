@@ -669,13 +669,8 @@
 }
 
 .travel-street-text {
-  font-family: "Inter", sans-serif;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
-  line-height: 1.85;
   max-width: 48ch;
-  text-align: justify;
-  font-style: italic;
+  line-height: 2.6 !important;
 }
 
 /* Individual image card */

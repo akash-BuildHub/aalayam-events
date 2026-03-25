@@ -472,7 +472,7 @@ function GalleryCategory({ category }) {
               Street <span className="travel-street-amp">&amp;</span> Travel
             </h2>
             <div className="travel-street-title-line" />
-            <p className="travel-street-text">
+            <p className="travel-street-text text-foreground/70 text-sm md:text-base leading-[2.35] font-light text-justify">
               I capture genuine moments you can feel and hold onto long after they have passed, turning them into lasting memories filled with emotion, meaning, and life, preserving the little details and natural connections that make every moment truly unforgettable.
             </p>
           </div>
