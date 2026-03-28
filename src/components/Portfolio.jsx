@@ -11,17 +11,19 @@ const portfolioData = [
     label: 'Wedding',
     images: [
       'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690330/IMG_6716.JPG_urqdb8.jpg',
-      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690325/IMG_6699.JPG_xvl5ws.jpg',      
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690325/IMG_6699.JPG_xvl5ws.jpg',
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774692872/IMG_1224.JPG_qkfdc0.jpg',
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774692319/IMG_0221.JPG_tafm1a.jpg',      
       'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690352/IMG_6714.JPG_dd5s3v.jpg',
-      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690323/IMG_1217.JPG_vniops.jpg',
-      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690330/IMG_6716.JPG_urqdb8.jpg',
-    ],
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690323/IMG_1217.JPG_vniops.jpg',    ],
   },
   {
     id: 'Portrait',
     label: 'Portrait',
     images: [
       'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774688476/DSC_8281_b.jpg_ngvzwd.jpg',
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774693339/DSC_0247.JPG_ridgej.jpg',
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774693430/DSC_5150.jpg_10000_lnlzu5.jpg',
       'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774688459/IMG_0733.JPG_rc7iul.jpg',
       'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774688459/IMG_0808.JPG_te4ywz.jpg',
     ],
@@ -42,6 +44,7 @@ const portfolioData = [
     id: 'TravelStreet',
     label: 'Travel and Street',
     images: [
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774693574/DSC05110.JPG_j8ukxj.jpg',
       'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?q=80&w=800&auto=format&fit=crop',
