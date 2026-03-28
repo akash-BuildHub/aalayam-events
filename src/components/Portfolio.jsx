@@ -149,13 +149,13 @@ function GalleryCategory({ category }) {
         brandLayersBySlot.forEach((slotLayers) => {
           slotLayers.forEach((layer, idx) => {
             gsap.set(layer, {
-              rotationX: idx === 0 ? 0 : 86,
+              rotationY: idx === 0 ? 0 : 90,
               y: 0,
               scale: 1,
               opacity: idx === 0 ? 1 : 0,
               zIndex: 30 - idx,
               transformPerspective: 1200,
-              transformOrigin: 'top center',
+              transformOrigin: 'center center',
             });
           });
         });
@@ -187,7 +187,7 @@ function GalleryCategory({ category }) {
 
           if (currentLayer && nextLayer) {
             tl.to(currentLayer, {
-              rotationX: -92,
+              rotationY: -90,
               y: 0,
               scale: 1,
               opacity: 0,
@@ -195,7 +195,7 @@ function GalleryCategory({ category }) {
               ease: 'power2.inOut',
             }, at)
               .to(nextLayer, {
-                rotationX: 0,
+                rotationY: 0,
                 y: 0,
                 scale: 1,
                 opacity: 1,
@@ -472,7 +472,7 @@ function GalleryCategory({ category }) {
               Street <span className="travel-street-amp">&amp;</span> Travel
             </h2>
             <div className="travel-street-title-line" />
-            <p className="travel-street-text text-foreground/70 text-sm md:text-base leading-[2.35] font-light text-justify">
+            <p className="travel-street-text text-foreground/70 text-base md:text-lg leading-[2.35] font-light text-justify">
               I capture genuine moments you can feel and hold onto long after they have passed, turning them into lasting memories filled with emotion, meaning, and life, preserving the little details and natural connections that make every moment truly unforgettable.
             </p>
           </div>

@@ -566,7 +566,7 @@
     0 16px 32px rgba(0, 0, 0, 0.4),
     0 3px 8px rgba(0, 0, 0, 0.28);
   backface-visibility: hidden;
-  transform-origin: top center;
+  transform-origin: center center;
   will-change: transform, opacity;
 }
 
