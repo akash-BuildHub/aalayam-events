@@ -10,13 +10,11 @@ const portfolioData = [
     id: 'Wedding',
     label: 'Wedding',
     images: [
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690330/IMG_6716.JPG_urqdb8.jpg',
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690325/IMG_6699.JPG_xvl5ws.jpg',      
       'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690352/IMG_6714.JPG_dd5s3v.jpg',
-      'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1525258974630-42ebee1c2e4b?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1537633552985-df8429e8048b?q=80&w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1591604466107-ec97de577aff?q=80&w=800&auto=format&fit=crop',
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690323/IMG_1217.JPG_vniops.jpg',
+      'https://res.cloudinary.com/dfzzoywpm/image/upload/f_auto,q_auto,w_800/v1774690330/IMG_6716.JPG_urqdb8.jpg',
     ],
   },
   {
